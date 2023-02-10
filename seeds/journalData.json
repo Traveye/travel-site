@@ -1,0 +1,78 @@
+[
+    {
+        "trip_id": 1,
+        "label": "Favorite Places",
+        "content": "Great Salt Lake"
+    },
+    {
+        "trip_id": 1,
+        "label": "Favorite Places",
+        "content": "Park City"
+    },
+    {
+        "trip_id": 1,
+        "label": "Favorite Places",
+        "content": "Snowbird"
+    },
+    {
+        "trip_id": 1,
+        "label": "Favorite Food",
+        "content": "Tacos"
+    },
+    {
+        "trip_id": 1,
+        "label": "Favorite Food",
+        "content": "Pizza"
+    },
+    {
+        "trip_id": 2,
+        "label": "Favorite Activities",
+        "content": "Surfing"
+    },
+    {
+        "trip_id": 2,
+        "label": "Favorite Activities",
+        "content": "Concerts"
+    },
+    {
+        "trip_id": 2,
+        "label": "Favorite Activities",
+        "content": "Biking"
+    },
+    {
+        "trip_id": 2,
+        "label": "Favorite Food",
+        "content": "Burgers"
+    },
+    {
+        "trip_id": 2,
+        "label": "Favorite Food",
+        "content": "Lasagna"
+    },
+    {
+        "trip_id": 3,
+        "label": "Main Songs",
+        "content": "Party in the USA"
+    },
+    {
+        "trip_id": 3,
+        "label": "Main Songs",
+        "content": "Let it be"
+    },
+    {
+        "trip_id": 3,
+        "label": "Main Songs",
+        "content": "We are the champions"
+    },
+    {
+        "trip_id": 3,
+        "label": "Favorite Food",
+        "content": "Fish Tacos"
+    },
+    {
+        "trip_id": 3,
+        "label": "Favorite Food",
+        "content": "Dumplings"
+    }
+
+]
