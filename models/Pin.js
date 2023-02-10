@@ -11,6 +11,7 @@ Pin.init(
             primaryKey: true,
             autoIncrement: true,
         },
+
         coordinates: {
             type: DataTypes.GEOMETRY('POINT'), // format is [longitude, latitude]]
             allowNull: false,
