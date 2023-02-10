@@ -27,7 +27,18 @@ router.get('/', async (req, res) => {
     }
 });
 
-
+router.get('/:id', async (req, res) => {
+    try {
+        const onePin = await Pin.findOne({
+            where: {
+                id: req.params.id,
+            },
+        });
+        res.status(200).json(onePin);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
 
 
 
