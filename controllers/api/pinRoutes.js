@@ -40,7 +40,18 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-
+router.delete('/:id', async (req, res) => {
+    try {
+        const deletedPin = await Pin.destroy({
+            where: {
+                id: req.params.id,
+            },
+        });
+        res.status(200).json(deletedPin);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
 
 
 module.exports = router;
