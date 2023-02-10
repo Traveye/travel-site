@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaflet Map with Markers and Journal Pages</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+   <style>
+     #map {
+        height: 100%;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+   </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+  <script>
+    var markers = [];
+    var map = L.map('map').setView([51.505, -0.09], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    map.on('click', function(e) {
+      var marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+      markers.push(marker);
+
+      marker.bindPopup("<b>Enter text for marker:</b><br><textarea id='marker-text'></textarea><br><button id='save-button'>Save</button>");
+      marker.openPopup();
+
+      document.querySelector("#save-button").addEventListener("click", function() {
+        var markerText = document.querySelector("#marker-text").value;
+        marker.setPopupContent("<b>Marker Text:</b><br>" + markerText + "<br><a href='journal.html'>View Journal</a>");
+        marker.closePopup();
+      });
+    });
+  </script>
+</body>
+</html>
