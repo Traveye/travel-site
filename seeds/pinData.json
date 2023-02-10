@@ -1,23 +1,23 @@
 [
     {
-        "coordinates": [
+        "coordinates": {"type": "Point", "coordinates": [
             111.0937,
             39.3210
-        ],
+        ]},
         "user_id": 1
     },
     {
-        "coordinates": [
+        "coordinates": {"type": "Point", "coordinates": [
             119.4179,
             36.7783
-        ],
+        ]},
         "user_id": 2
     },
     {
-        "coordinates": [
+        "coordinates": {"type": "Point", "coordinates": [
             120.5542,
             43.8041
-        ],
+        ]},
         "user_id": 3
     }
 ]
