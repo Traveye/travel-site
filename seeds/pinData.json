@@ -1,17 +1,23 @@
 [
     {
-        "latitude": 39.3210,
-        "longitude": 111.0937,
+        "coordinates": [
+            111.0937,
+            39.3210
+        ],
         "user_id": 1
     },
     {
-        "latitude": 36.7783,
-        "longitude": 119.4179,
+        "coordinates": [
+            119.4179,
+            36.7783
+        ],
         "user_id": 2
     },
     {
-        "latitude": 43.8041,
-        "longitude": 120.5542,
+        "coordinates": [
+            120.5542,
+            43.8041
+        ],
         "user_id": 3
     }
 ]
