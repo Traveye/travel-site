@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { where } = require('sequelize');
 const { Pin } = require('../../models/index');
 
 router.post('/', async (req, res) => {
@@ -12,6 +13,22 @@ router.post('/', async (req, res) => {
         res.status(400).json(err);
     }
 });
+
+router.get('/', async (req, res) => {
+    try {
+        const allPins = await Pin.findAll({
+            where: {
+                user_id: req.session.user_id,
+            },
+        });
+        res.status(200).json(allPins);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
+
+
+
 
 
 
