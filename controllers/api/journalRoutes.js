@@ -19,10 +19,14 @@ router.post("/", withAuth, async (req, res) => {
 // this should update a journal entry by id
 router.put("/:id", withAuth, async (req, res) => {
   try {
-    const updatedJournal = await Journal.findOneAndUpdate(
-      { _id: req.params.id, user_id: req.session.user_id },
-      req.body,
-      { new: true }
+    const updatedJournal = await Journal.update(
+      {
+        label: req.body.label,
+        content: req.body.content,
+      },
+      {
+        where: { id: req.params.id },
+      }
     );
 
     if (!updatedJournal) {
@@ -43,7 +47,6 @@ router.delete("/:id", withAuth, async (req, res) => {
     const journalData = await Journal.destroy({
       where: {
         id: req.params.id,
-        user_id: req.session.user_id,
       },
     });
 
