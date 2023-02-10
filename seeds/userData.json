@@ -1,0 +1,17 @@
+[
+    {
+        "username": "mccoy",
+        "display_name": "McCoy Didericksen",
+        "password": "McCoy1234"
+    },
+    {
+        "username": "travis",
+        "display_name": "Travis Dupree",
+        "password": "Travis1234"
+    },
+    {
+        "username": "jonathan",
+        "display_name": "Jonathan Pohahau",
+        "password": "Jonathan1234"
+    }
+]
