@@ -12,12 +12,14 @@
 
 <body>
   <header>
-   <nav class="flex justify-content-space-between" style="flex-direction: row">
-        <ul>
-          <li><a>Logo</a></li>
-          <li><a href="/login"></a>Home</li>
-        </ul>
-      </nav>
+  {{#if showNav}}
+  <nav>
+     <ul>
+      <li><a>Logo</a></li>
+      <li><a href="/login">Home</a></li>
+    </ul>
+  </nav>
+  {{/if}}
   </header>
   <main>
     {{{ body }}}
