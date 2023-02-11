@@ -648,3 +648,11 @@ video {
     max-width: 32rem;
   }
 }
+
+/* login page styling */
+
+.logo {
+  width: 15em;
+  height: 15em;
+  object-fit: contain;
+}

@@ -1,5 +1,19 @@
 <div>
-    <img src="{{logo.imagePath}}" alt="{{logo.imageAlt}}">
+  <img src="{{logo.imagePath}}" class="logo" alt="{{logo.imageAlt}}" />
+</div>
+
+<div>
+  <p>"Welcome to the ultimate travel companion for the adventurous and organized
+    traveler! Our site is designed for people who love to travel and want an
+    easy way to document all of their trips. Whether you're a seasoned traveler
+    or just starting out, our site is the perfect way to help you organize and
+    remember your travels. With our site, you can drop a pin anywhere on a map
+    to create a visual representation of your travels. Simply click on the pin
+    to input all your memories, like a journal. Our site offers separate places
+    to store your favorite foods and other experiences, but the best part is
+    that it's completely customizable to fit your unique needs. Say goodbye to
+    forgotten adventures and hello to a beautifully organized record of your
+    travels. Start documenting your trips today!"</p>
 </div>
 
 <!-- The Modal -->
@@ -8,12 +22,17 @@
     <div></div>
   </div>
 
-  <div class="bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+  <div
+    class="bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full"
+  >
     <!-- The Modal Content -->
     <div class="">
       <!-- The Close Button -->
       <div class="flex justify-end">
-        <button class="text-3xl leading-none hover:text-gray-500" @click="showModal = false">
+        <button
+          class="text-3xl leading-none hover:text-gray-500"
+          @click="showModal = false"
+        >
           &times;
         </button>
       </div>
@@ -23,14 +42,17 @@
       <p class="text-gray-700">Modal Body</p>
       <!-- The Modal Footer -->
       <div class="flex justify-end pt-2">
-        <button class="text-sm font-medium bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg">
+        <button
+          class="text-sm font-medium bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg"
+        >
           Close
         </button>
-        <button class="text-sm font-medium bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg ml-4">
+        <button
+          class="text-sm font-medium bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg ml-4"
+        >
           Save
         </button>
       </div>
     </div>
   </div>
 </div>
-
