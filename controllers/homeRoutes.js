@@ -66,6 +66,7 @@ router.get('/pin/:id', async (req, res) => {
             formattedTrips.push(trip);
         }
         const trips = formattedTrips;
+        console.log(trips);
         res.render('pin', {
             trips,
         });
