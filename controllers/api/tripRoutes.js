@@ -1,8 +1,6 @@
 // this file is for all trip api routes
 const router = require('express').Router();
-const sequelize = require('../../config/connection');
 const { Pin, Trip, Journal} = require('../../models');
-
 
 // a route to get all trips is completed
 // :id is the pin id (when the user clicks on a pin)
