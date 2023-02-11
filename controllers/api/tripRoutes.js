@@ -1,7 +1,6 @@
 // this file is for all trip api routes
 const router = require('express').Router();
-const sequelize = require('../../config/connection');
-const { Pin, Trip, Journal} = require('../../models');
+const { Trip } = require('../../models');
 
 // a route to add a new trip is completed
 router.post('/', async (req, res) => {
