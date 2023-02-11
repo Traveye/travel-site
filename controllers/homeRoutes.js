@@ -3,7 +3,11 @@ const { User, Pin, Trip, Journal } = require('../models/index');
 
 router.get('/', (req, res) => {
     //TODO: add logic to check if user is logged in/redirect to dashboard if true
-    res.render('login');
+    const logo = {
+        imagePath: '/images/dropin.PNG',
+        imageAlt: 'Drop In logo',
+      };
+    res.render('login', logo);
 });
 
 router.get('/dashboard', (req, res) => {
@@ -13,3 +17,4 @@ router.get('/dashboard', (req, res) => {
 })
 
 module.exports = router;
+

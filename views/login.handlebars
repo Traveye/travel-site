@@ -1,7 +1,35 @@
 <div>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, odit vel ratione excepturi harum in? Repellendus nobis, suscipit consectetur iste nesciunt minus dicta. Quis, fuga error rem aliquam autem hic!</p>
+    <img src="{{imagePath}}" alt="{{imageAlt}}">
 </div>
-<div>
-    <button>login</button>
-    <button>signup</button>
+
+<!-- The Modal -->
+<div class="fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center">
+  <div class="fixed inset-0 transition-opacity">
+    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+  </div>
+
+  <div class="bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+    <!-- The Modal Content -->
+    <div class="">
+      <!-- The Close Button -->
+      <div class="flex justify-end">
+        <button class="text-3xl leading-none hover:text-gray-500" @click="showModal = false">
+          &times;
+        </button>
+      </div>
+      <!-- The Modal Title -->
+      <h2 class="text-lg font-medium text-gray-900 pb-4">Modal Title</h2>
+      <!-- The Modal Body -->
+      <p class="text-gray-700">Modal Body</p>
+      <!-- The Modal Footer -->
+      <div class="flex justify-end pt-2">
+        <button class="text-sm font-medium bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg">
+          Close
+        </button>
+        <button class="text-sm font-medium bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg ml-4">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
