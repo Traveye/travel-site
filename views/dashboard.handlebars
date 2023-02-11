@@ -1,18 +1,13 @@
-{{!-- EXAMPLE of linking to tailwind.css styles
+<div id="map" style="height: 1000px; width: 100%;"></div>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+<script>
+   var markers = [];
+   var map = L.map('map').setView([51.505, -0.09], 13);
 
-<!doctype html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  ## LINK to the output.css file to get access to styles
-  <link href="../dist/output.css" rel="stylesheet">
-
-</head>
-<body>
-  <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
-</body>
-</html> --}}
+   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+   }).addTo(map);
+</script>
+<script>'./js/map'</script>
