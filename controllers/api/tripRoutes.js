@@ -1,13 +1,30 @@
 // this file is for all trip api routes
 const router = require('express').Router();
-const { Trip } = require('../../models');
+const sequelize = require('../../config/connection');
+const { Pin, Trip, Journal} = require('../../models');
 
 
 // a route to get all trips is completed
-router.get('/', async (req, res) => {
+// :id is the pin id (when the user clicks on a pin)
+router.get('/:id', async (req, res) => {
     try {
-        const tripData = await Trip.findAll();
-        res.status(200).json(tripData);
+        const tripData = await Pin.findAll({
+            where: {
+                id: req.params.id,
+            },
+            include: [
+                { 
+                    model: Trip,
+                    include: [
+                        {
+                            model: Journal,
+                        },
+                    ],
+                },
+            ],
+        });
+        const trips = tripData.map((trip) => trip.get({ plain: true }));
+        res.status(200).json(trips);
     } catch (err) {
         res.status(500).json(err);
     }
