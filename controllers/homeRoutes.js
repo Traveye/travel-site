@@ -9,6 +9,7 @@ router.get("/", (req, res) => {
       imagePath: "/images/dropin.PNG",
       imageAlt: "Drop In logo",
     },
+    bgImage: "/images/loginbg.png",
     showNav: false,
   };
 
@@ -18,30 +19,18 @@ router.get("/", (req, res) => {
 router.get("/dashboard", async (req, res) => {
     //TODO: add logic to check if user is logged in/redirect to login if false
     //TODO: add logic to get user's pins, trips, and journals to pass to handlebars
-    try {
-        const tripData = await Pin.findAll({
-            where: {
-                id: req.session.id,
-            },
-            include: [
-                { 
-                    model: Trip,
-                    include: [
-                        {
-                            model: Journal,
-                        },
-                    ],
-                },
-            ],
-        });
-      const showNav = true;
-   
-      res.render("dashboard", { showNav, tripData });   
-    } catch (err){
-        res.status(500).json(err);
-    }
-    
-});
+
+    const data = {
+        logo: {
+            imagePath: "/images/dropin.PNG",
+            imageAlt: "Drop In logo" 
+        },
+        showNav: true,
+    }; 
+  
+    res.render("dashboard", data);
+  });
+
 
 // :id is the pin id (when the user clicks on a pin)
 router.get('/pin/:id', async (req, res) => {
@@ -105,6 +94,10 @@ router.get('/pin/:id', async (req, res) => {
         res.render('pin', {
             trips,
             showNav: true,
+            logo: {
+                imagePath: "/images/dropin.PNG",
+                imageAlt: "Drop In logo" 
+            }   
         });
     } catch (err) {
         res.status(500).json(err);

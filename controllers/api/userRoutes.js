@@ -5,6 +5,7 @@ const { User } = require('../../models');
 
 // route is to signup a user
 router.post('/', async (req, res) => {
+  console.log(req.body)
   try {
     // the signup body needs the username, display_name(full name), and password in order to be created
     const dbUserData = await User.create({
@@ -12,12 +13,15 @@ router.post('/', async (req, res) => {
       display_name: req.body.display_name,
       password: req.body.password,
     });
+    console.log(dbUserData)
 
     req.session.save(() => {
       req.session.user_id = dbUserData.id;
       req.session.loggedIn = true;
 
-      res.status(200).json(dbUserData);
+      // res
+      // .status(200).json({message: 'You are now signed in!✅'})
+      res.render('dashboard', {loggedIn: true})
     });
   } catch (err) {
     console.log(err);
@@ -57,7 +61,7 @@ router.post('/login', async (req, res) => {
 
       res
         .status(200)
-        .json({ user: dbUserData, message: 'You are now logged in!✅' });
+        .json({ message: 'You are now logged in!✅' });
     });
   } catch (err) {
     console.log(err);
