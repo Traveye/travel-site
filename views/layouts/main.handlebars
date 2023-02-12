@@ -4,16 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Travel Blog</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""/>
   <link href="/output.css" rel="stylesheet">
 </head>
 
 <body>
   <header>
-    <h1>
-      Nav Bar With logo etc.
-    </h1>
-    <nav>
+  {{#if showNav}}
+  <nav>
+     <ul>
+      <li><a>Logo</a></li>
+      <li><a href="/login">Home</a></li>
+    </ul>
   </nav>
+  {{/if}}
   </header>
   <main>
     {{{ body }}}
