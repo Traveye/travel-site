@@ -1,0 +1,16 @@
+<div>
+    {{#each trips}}
+    <div>
+        <p>{{title}}</p>
+        <button></button>
+        <p>{{date_start}}</p>
+        <p>{{date_end}}</p>
+        {{#each journals}}
+        <p>{{label}}</p>
+        {{#each content}}
+        <p>{{entry}}</p>
+        {{/each}}
+        {{/each}}
+        {{/each}}
+    </div>
+</div>
