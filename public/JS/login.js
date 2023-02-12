@@ -33,10 +33,11 @@ signup.addEventListener("click", async () => {
         method: "POST",
         body: JSON.stringify({ username, display_name, password }),
         headers: { "Content-Type": "application/json" },
+
       });
       const data = await response.json();
       console.log("Success:", data);
-      modal1.close();
+      document.location.replace("/dashboard");
     } catch (error) {
       console.log("Error:", error);
     }

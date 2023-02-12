@@ -72,6 +72,7 @@ router.post('/logout', (req, res) => {
   // conditional to see if it is logged in and if so the log out.
   if (req.session.loggedIn) {
     req.session.destroy(() => {
+      console.log("You are now logged out!❌")
       res.status(204).end();
     });
   } else {
