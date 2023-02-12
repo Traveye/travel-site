@@ -33,38 +33,41 @@ signup.addEventListener("click", async () => {
         method: "POST",
         body: JSON.stringify({ username, display_name, password }),
         headers: { "Content-Type": "application/json" },
-
       });
       const data = await response.json();
-      console.log("Success:", data);
-      document.location.replace("/dashboard");
-      alert("You have been signed up!");
+      if (!data.errors) {
+        document.location.replace("/dashboard");
+        alert("You have been signed up!");
+      } else {
+        alert("Failed to sign up.");
+      }
     } catch (error) {
       console.log("Error:", error);
+      alert("Failed to sign up.");
     }
+  } else {
+    alert("Please fill out all fields.");
   }
 });
 
-
-
 //fucntion to make the fetch call to login
 login.addEventListener("click", async () => {
-    const username = document.querySelector("#login-username").value.trim();
-    const password = document.querySelector("#login-password").value.trim();
-    
-    if (username && password) {
-        try {
-        const response = await fetch("/api/user/login", {
-            method: "POST",
-            body: JSON.stringify({ username, password }),
-            headers: { "Content-Type": "application/json" },
-        });
-        const data = await response.json();
-        console.log("Success:", data);
-        window.location.assign("/dashboard");
-        alert("You have been logged in!");
-        } catch (error) {
-        console.error("Error:", error);
-        }
+  const username = document.querySelector("#login-username").value.trim();
+  const password = document.querySelector("#login-password").value.trim();
+
+  if (username && password) {
+    try {
+      const response = await fetch("/api/user/login", {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await response.json();
+      console.log("Success:", data);
+      window.location.assign("/dashboard");
+      alert("You have been logged in!");
+    } catch (error) {
+      console.error("Error:", error);
     }
+  }
 });
