@@ -1,16 +1,26 @@
-const router = require('express').Router();
-const { User, Pin, Trip, Journal } = require('../models/index');
+const router = require("express").Router();
+const { User, Pin, Trip, Journal } = require("../models/index");
 
-router.get('/', (req, res) => {
-    //TODO: add logic to check if user is logged in/redirect to dashboard if true
-    res.render('login');
+router.get("/", (req, res) => {
+  //TODO: add logic to check if user is logged in/redirect to dashboard if true
+  const data = {
+    logo: {
+      imagePath: "/images/dropin.PNG",
+      imageAlt: "Drop In logo",
+    },
+    showNav: false,
+  };
+
+  res.render("login", data);
 });
 
-router.get('/dashboard', (req, res) => {
+router.get("/dashboard", (req, res) => {
     //TODO: add logic to check if user is logged in/redirect to login if false
     //TODO: add logic to get user's pins, trips, and journals to pass to handlebars
-    res.render('dashboard');
-});
+    const showNav = true;
+  
+    res.render("dashboard", { showNav });
+  });
 
 // :id is the pin id (when the user clicks on a pin)
 router.get('/pin/:id', async (req, res) => {
