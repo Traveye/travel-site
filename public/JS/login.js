@@ -38,6 +38,7 @@ signup.addEventListener("click", async () => {
       const data = await response.json();
       console.log("Success:", data);
       document.location.replace("/dashboard");
+      alert("You have been signed up!");
     } catch (error) {
       console.log("Error:", error);
     }
@@ -61,6 +62,7 @@ login.addEventListener("click", async () => {
         const data = await response.json();
         console.log("Success:", data);
         window.location.assign("/dashboard");
+        alert("You have been logged in!");
         } catch (error) {
         console.error("Error:", error);
         }
