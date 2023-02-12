@@ -694,9 +694,9 @@ form {
   width: 100%;
 }
 
-/* #login, #signup {
-  color: blue;
-} */
+#login, #signup {
+  margin-top: .5em;
+}
 
 .open-button {
   background-color: #00a1ff;

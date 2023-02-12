@@ -38,7 +38,7 @@ signup.addEventListener("click", async () => {
       console.log("Success:", data);
       modal1.close();
     } catch (error) {
-      console.error("Error:", error);
+      console.log("Error:", error);
     }
   }
 });
