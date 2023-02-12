@@ -8,6 +8,7 @@ router.get("/", (req, res) => {
       imagePath: "/images/dropin.PNG",
       imageAlt: "Drop In logo",
     },
+    bgImage: "/images/loginbg.png",
     showNav: false,
   };
 
