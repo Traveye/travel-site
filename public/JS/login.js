@@ -1,4 +1,4 @@
-// script to open / close the signup and login form
+//functions to open and close the modals
 
 const modal1 = document.querySelector("#modal-1");
 const modal2 = document.querySelector("#modal-2");
@@ -41,4 +41,26 @@ signup.addEventListener("click", async () => {
       console.error("Error:", error);
     }
   }
+});
+
+
+//fucntion to make the fetch call to login
+login.addEventListener("click", async () => {
+    const username = document.querySelector("#login-username").value.trim();
+    const password = document.querySelector("#login-password").value.trim();
+    
+    if (username && password) {
+        try {
+        const response = await fetch("/api/users/login", {
+            method: "POST",
+            body: JSON.stringify({ username, password }),
+            headers: { "Content-Type": "application/json" },
+        });
+        const data = await response.json();
+        console.log("Success:", data);
+        modal2.close();
+        } catch (error) {
+        console.error("Error:", error);
+        }
+    }
 });
