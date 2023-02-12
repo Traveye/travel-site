@@ -1,10 +1,20 @@
 // script to open / close the signup and login form
 
-const modal = document.querySelector("#modal-1");
+const modal1 = document.querySelector("#modal-1");
 const modal2 = document.querySelector("#modal-2");
-const openModal = document.querySelector(".open-button");
+const openModal1 = document.querySelector("#signup");
+const openModal2 = document.querySelector("#login");
 const closeModal = document.querySelector(".close-button");
 
-openModal.addEventListener("click", () => {
-    modal.showModal();
+openModal1.addEventListener("click", () => {
+    modal1.showModal();
+});
+
+openModal2.addEventListener("click", () => {
+    modal2.showModal();
+});
+
+closeModal.addEventListener("click", () => {
+    modal1.close();
+    modal2.close();
 });
