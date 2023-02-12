@@ -24,12 +24,12 @@ closeModal.addEventListener("click", () => {
 //makes the fetch call to create a new user
 signup.addEventListener("click", async () => {
   const username = document.querySelector("#username").value.trim();
-  const display_name = document.querySelector("#disply_name").value.trim();
+  const display_name = document.querySelector("#display_name").value.trim();
   const password = document.querySelector("#password").value.trim();
 
   if (username && display_name && password) {
     try {
-      const response = await fetch("/api/users", {
+      const response = await fetch("/api/user", {
         method: "POST",
         body: JSON.stringify({ username, display_name, password }),
         headers: { "Content-Type": "application/json" },
@@ -51,7 +51,7 @@ login.addEventListener("click", async () => {
     
     if (username && password) {
         try {
-        const response = await fetch("/api/users/login", {
+        const response = await fetch("/api/user/login", {
             method: "POST",
             body: JSON.stringify({ username, password }),
             headers: { "Content-Type": "application/json" },
