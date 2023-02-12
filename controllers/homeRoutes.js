@@ -14,6 +14,7 @@ router.get('/dashboard', (req, res) => {
 
 // :id is the pin id (when the user clicks on a pin)
 router.get('/pin/:id', async (req, res) => {
+    // get all pins, trips, and journals for the pin
     try {
         const tripData = await Pin.findAll({
             where: {
@@ -30,8 +31,10 @@ router.get('/pin/:id', async (req, res) => {
                 },
             ],
         });
+        // format the data to be passed to handlebars
         const pin = tripData.map((trip) => trip.get({ plain: true }))[0];
         const formattedTrips = [];
+        // create an array of trips
         for(let i = 0; i < pin.trips.length; i++) {
             const trip = {
                 id: pin.trips[i].id,
@@ -41,6 +44,7 @@ router.get('/pin/:id', async (req, res) => {
             };
             const journals = {};
             const journalIteration = pin.trips[i].journals;
+            // create an object of journals
             for(let i = 0; i < journalIteration.length; i++) {
                 if(journals[journalIteration[i].label]) {
                     journals[journalIteration[i].label].push(journalIteration[i].content);
@@ -49,6 +53,7 @@ router.get('/pin/:id', async (req, res) => {
                 }
             }
             journalsFormatted = [];
+            // format the journals object to be passed to handlebars
             for(const [key, value] of Object.entries(journals)) {
                 const formatObj = {
                     label: key,
@@ -66,7 +71,6 @@ router.get('/pin/:id', async (req, res) => {
             formattedTrips.push(trip);
         }
         const trips = formattedTrips;
-        console.log(trips);
         res.render('pin', {
             trips,
         });
