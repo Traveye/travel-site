@@ -45,6 +45,7 @@ signup.addEventListener("click", async () => {
 });
 
 
+
 //fucntion to make the fetch call to login
 login.addEventListener("click", async () => {
     const username = document.querySelector("#login-username").value.trim();
@@ -59,7 +60,7 @@ login.addEventListener("click", async () => {
         });
         const data = await response.json();
         console.log("Success:", data);
-        modal2.close();
+        window.location.assign("/dashboard");
         } catch (error) {
         console.error("Error:", error);
         }

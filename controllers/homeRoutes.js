@@ -24,6 +24,7 @@ router.get("/dashboard", (req, res) => {
             imageAlt: "Drop In logo" 
         },
         showNav: true,
+        loggedIn: req.session.loggedIn,
     }; 
   
     res.render("dashboard", data);

@@ -59,7 +59,7 @@ router.post('/login', async (req, res) => {
 
       res
         .status(200)
-        .json({ message: 'You are now logged in!✅' });
+        .json({ message: 'You are now logged in!✅' })
     });
   } catch (err) {
     console.log(err);
