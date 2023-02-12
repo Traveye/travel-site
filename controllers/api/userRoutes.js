@@ -61,7 +61,7 @@ router.post('/login', async (req, res) => {
 
       res
         .status(200)
-        .json({ message: 'You are now logged in!✅' });
+        .json({ message: 'You are now logged in!✅' })
     });
   } catch (err) {
     console.log(err);
@@ -74,6 +74,7 @@ router.post('/logout', (req, res) => {
   // conditional to see if it is logged in and if so the log out.
   if (req.session.loggedIn) {
     req.session.destroy(() => {
+      console.log("You are now logged out!❌")
       res.status(204).end();
     });
   } else {
