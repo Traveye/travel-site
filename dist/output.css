@@ -674,20 +674,31 @@ video {
 
 form {
   display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1em;
+}
+
+.grid-col-span-2 {
+  grid-column: span 2;
 }
 
 .button {
   border: 0;
   cursor: pointer;
-  background: var(--gray-8);
-  color: var(--gray-2);
   font-weight: 700;
-  padding: var(--size-2) var(--size-4);
 }
 
 .input-field {
   border: 1px solid #ddd;
   padding: 8px;
   width: 100%;
+}
+
+/* #login, #signup {
+  color: blue;
+} */
+
+.open-button {
+  background-color: #00a1ff;
+  color: white;
 }
