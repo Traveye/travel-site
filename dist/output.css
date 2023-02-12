@@ -665,17 +665,17 @@ video {
   padding: 1em;
   max-width: 50ch;
   min-width: 30ch;
-  box-shadow: 0 0 1em rgb(0 0 0 / 0.3);
+  box-shadow: 0 0 1em rgb(0 0 0 / 0.9);
 }
 
 .modal::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1em;
+  gap: .5em;
 }
 
 .grid-col-span-2 {
@@ -701,4 +701,8 @@ form {
 .open-button {
   background-color: #00a1ff;
   color: white;
+  font-size: 1.5rem;
+  padding: .5rem;
+  border-radius: 10px;
 }
+
