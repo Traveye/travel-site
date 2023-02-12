@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
   res.render("login", data);
 });
 
-router.get("/dashboard", async (req, res) => {
+router.get("/dashboard", withAuth, async (req, res) => {
     //TODO: add logic to check if user is logged in/redirect to login if false
     //TODO: add logic to get user's pins, trips, and journals to pass to handlebars
 
@@ -34,7 +34,7 @@ router.get("/dashboard", async (req, res) => {
 
 
 // :id is the pin id (when the user clicks on a pin)
-router.get('/pin/:id', async (req, res) => {
+router.get('/pin/:id', withAuth, async (req, res) => {
     // get all pins, trips, and journals for the pin
     try {
         const tripData = await Pin.findAll({
