@@ -1,5 +1,6 @@
 var pins = [];
-var map = L.map("map").setView([51.505, -0.09], 13);
+var map = L.map("map").setView([0, 0], 2.5);
+// the 2.5 sets the zoom view for us
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution:
@@ -13,6 +14,7 @@ const newPin = async (e) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           coordinates: {"type": "Point", "coordinates": [e.latlng.lng, e.latlng.lat]},
+          // TODO: user_id needs login functionality
         //   user_id: req.session.user_id,
         }),
       }).then((response) => response.json())
@@ -21,10 +23,12 @@ const newPin = async (e) => {
     //   }
       console.log(response)
     var pin = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-    var timestamp = new Date().getTime();
-    //   var num = new pin_id
+    console.log([e.latlng.lng, e.latlng.lat])
     pin.id = response.id;
     pins.push(pin);
+    pin.bindPopup(
+                "<b>Enter text for pin:</b><br><textarea id='pin-text'></textarea><br><button id='save-button'>Save</button>"
+              );
     console.log(pin);
     pin.bindPopup("<a href='/pin/" + pin.id + "'>View Trip</a>");
     pin.openPopup();
@@ -32,30 +36,26 @@ const newPin = async (e) => {
   });
 };
 newPin();
+// TODO: 
 
 const fetchPins = async () => {
-//   const response = await fetch("/api/pin", {
-//     method: "GET",
-//     headers: { "Content-Type": "application/json" },
-//   }).then((response) => response.json());
   const response = await fetch("/api/pin", {
     method: "GET",
     headers: { "Content-Type": "application/json" },
-    // body: JSON.stringify({
-    //   coordinates: 
-    // //   user_id: req.session.user_id,
-    // }),
+
   }).then((response) => response.json())
 
   for(var i = 0; i < response.length; i++){
     console.log(response[i])
+    if(response[i]){
+        console.log(response[i].coordinates.coordinates)
+        // response[i].coordinates
+        let marker = L.marker([response[i].coordinates.coordinates[1], response[i].coordinates.coordinates[0]]).addTo(map);
+        marker.bindPopup("<a href='/pin/" + response[i].id + "'>View Trip</a>");
+        pins.push(marker);
+    }
   }
-    // response.forEach((pin) => {
-    //     // coordinates
-    //   let marker = L.marker([pin.longitude, pin.latitude]).addTo(map);
-    //   marker.bindPopup("<a href='/pin/" + pin.id + "'>View Trip</a>");
-    //   pins.push(marker);
-    // });
+
 
 };
 fetchPins();
