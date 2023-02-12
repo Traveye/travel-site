@@ -63,11 +63,15 @@ login.addEventListener("click", async () => {
         headers: { "Content-Type": "application/json" },
       });
       const data = await response.json();
-      console.log("Success:", data);
+      if(!data.errors) {
       window.location.assign("/dashboard");
       alert("You have been logged in!");
+      } else {
+        alert("Failed to log in.");
+      }
     } catch (error) {
       console.error("Error:", error);
+      alert("Failed to log in.");
     }
   }
 });
