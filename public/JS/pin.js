@@ -399,7 +399,7 @@ const handleDeleteListSubmit = async (tripId) => {
 };
 
 closeDeleteListBtn.addEventListener('click', () => {
-  deleteEntryModal.setAttribute('hidden', true);
+  deleteListModal.setAttribute('hidden', true);
 });
 
 if (deleteListBtns) {
@@ -407,6 +407,23 @@ if (deleteListBtns) {
     deleteListBtns[i].addEventListener('click', async (event) => {
       event.preventDefault();
       const tripId = event.target.getAttribute('data-trip-id');
+      const metaData = JSON.parse(document.getElementById('meta-trip-' + tripId).getAttribute('data-meta')).trips;
+      // clear out the select options
+      while(deleteListInput.firstChild) {
+        deleteListInput.removeChild(deleteListInput.lastChild);
+      }
+      // add the options
+      for(let i = 0; i < metaData.length; i++) {
+        if(metaData[i].id == tripId) {
+          for(let j = 0; j < metaData[i].journals.length; j++) {
+            const journalLabel = metaData[i].journals[j].label;
+            const option = document.createElement('option');
+            option.value = journalLabel;
+            option.textContent = journalLabel;
+            deleteListInput.appendChild(option);
+          }
+        }
+      }
       deleteListInput.value = '';
       deleteListModal.removeAttribute('hidden');
       handleDeleteListSubmit(tripId);
