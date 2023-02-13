@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { Pin } = require('../../models/index');
 
 router.post('/', async (req, res) => {
-    // console.log(req.session.user_id)
+    console.log(req.session.user_id)
     try {
         const newPin = await Pin.create({
             coordinates: req.body.coordinates,
@@ -20,9 +20,9 @@ router.get('/', async (req, res) => {
     try {
         const allPins = await Pin.findAll({
             // can add once log in function works
-            // where: {
-            //     user_id: req.session.user_id,
-            // },
+            where: {
+                user_id: req.session.user_id,
+            },
         });
         console.log(allPins)
         res.status(200).json(allPins);
