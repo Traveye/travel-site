@@ -10,28 +10,63 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 // console.log(searchControl)
-
-// L.Control.geocoder().addTo(map);
-// searchControl sets up the search bar rn it is collapsed  when clicked it will let user to 
-// type location then hit enter key and pick in drop down the location wanted
-var searchControl = L.Control.geocoder({
+var geocoder = L.Control.geocoder({
     position: "topleft",
     placeholder: "Search for location",
     showResultIcons: true,
     collapsed: true,
     className: "search-control",
   })
-    .on("click", function (e) {
-      var bbox = e.geocode.bbox;
-      var poly = L.polygon([
-        bbox.getSouthEast(),
-        bbox.getNorthEast(),
-        bbox.getNorthWest(),
-        bbox.getSouthWest(),
-      ]);
-      map.fitBounds(poly.getBounds());
-    }).addTo(map)
+  .on("markgeocode", async (event) => {
+     const response = await fetch("/api/pin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          coordinates: {
+            type: "Point",
+            coordinates: [event.geocode.center.lng, event.geocode.center.lat],
+          },
+          location_name: event.geocode.name,
+  
+        }),
+      }).then((response) => {
+          return response.json()
+      });
+    var marker = L.marker(event.geocode.center).addTo(map);
+    marker.id = response.id;
+    marker.bindPopup(`<b>Location Name:</b> ${event.geocode.name}<br/><a href='/pin/${marker.id}'>View Trip</a>`).openPopup();
     
+    pins.push(marker);
+    console.log(event.geocode.center.lat, event.geocode.center.lng)
+    console.log(event)
+  });
+  console.log(geocoder)
+geocoder.addTo(map);
+
+
+// L.Control.geocoder().addTo(map);
+// searchControl sets up the search bar rn it is collapsed  when clicked it will let user to 
+// type location then hit enter key and pick in drop down the location wanted
+// var searchControl = L.Control.geocoder({
+//     position: "topleft",
+//     placeholder: "Search for location",
+//     showResultIcons: true,
+//     collapsed: true,
+//     className: "search-control",
+//   })
+//     .on("click", function (e) {
+//       var bbox = e.geocode.bbox; 
+//       var poly = L.polygon([
+//         bbox.getSouthEast(),
+//         bbox.getNorthEast(),
+//         bbox.getNorthWest(),
+//         bbox.getSouthWest(),
+//       ]);
+
+//       map.fitBounds(poly.getBounds());
+//       var marker = L.marker(e.latlng).addTo(map);
+//     }).addTo(map)
+//     console.log(searchControl)
 // this lets us add a new pin
 const newPin = async (e) => {
   map.on("click", async (e) => {
@@ -50,13 +85,16 @@ const newPin = async (e) => {
           type: "Point",
           coordinates: [e.latlng.lng, e.latlng.lat],
         },
-        // TODO: user_id needs login functionality
-        // user_id: req.session.user_id,
+        location_name: location,
+
       }),
-    }).then((response) => response.json());
-    if (!response.ok) {
-      alert("Failed to create a new pin.");
-    }
+    }).then((response) => {
+        return response.json()
+        
+    });
+    // if (!response.ok) {
+        //   alert("Failed to create a new pin.");
+        // }
     console.log(response);
     var pin = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
     console.log([e.latlng.lat, e.latlng.lng]);

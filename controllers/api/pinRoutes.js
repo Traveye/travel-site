@@ -6,6 +6,7 @@ router.post('/', async (req, res) => {
     const newPin = await Pin.create({
       coordinates: req.body.coordinates,
       user_id: req.session.user_id,
+      location_name: req.body.location_name,
     });
     res.status(200).json(newPin);
   } catch (err) {
