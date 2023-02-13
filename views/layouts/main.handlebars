@@ -14,12 +14,21 @@
 <body>
   <header>
   {{#if showNav}}
-  <nav>
-     <ul>
-      <li><a>Logo</a></li>
-      <li><a href="/login">Home</a></li>
-    </ul>
-  </nav>
+<nav id="header" class="w-full z-30 top-10 py-1 bg-white shadow-lg border-b mt-24">      
+      <nav class="flex" style="width: 100%; justify-content: space-between; align-items: center">
+         <img src="{{logo.imagePath}}" alt="{{logo.imageAlt}}" style="height: 2em; width: 8em; margin: .5em">
+        <ul class="flex" style="align-items: center;">
+          <li>
+           <a class="inline-block no-underline font-medium text-lg py-2 px-4 lg:-ml-2" href="/">Home</a>
+          </li>
+          <li>
+            <button class="inline-block no-underline font-medium text-lg py-2 px-4 lg:-ml-2" id="logout">LogOut</button>
+          </li>
+          
+        </ul>
+      </nav>
+  </div>
+</nav>
   {{/if}}
   </header>
   <main>
@@ -28,6 +37,9 @@
   <footer>
       
   </footer>
+  {{#if showNav}}
+  <script src="/JS/logout.js"></script>
+  {{/if}}
 </body>
 
 </html>

@@ -3,6 +3,7 @@
         "coordinates": {"type": "Point", "coordinates": [
             -111.0937,
             39.3210
+
         ]},
         "user_id": 1,
         "location_name": "Salt Lake City, UT"
