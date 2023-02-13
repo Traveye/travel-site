@@ -7,14 +7,14 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
   crossorigin=""/>
-  {{!-- <link href="/output.css" rel="stylesheet"> --}}
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="/output.css" rel="stylesheet">
+  {{!-- <script src="https://cdn.tailwindcss.com"></script> --}}
 </head>
 
 <body>
   <header>
   {{#if showNav}}
-<nav id="header" class="w-full z-30 top-10 py-1 bg-white shadow-lg border-b mt-24">      
+<nav id="header" class="w-full z-30 top-10 py-1 bg-white shadow-lg border-b mt-10">      
       <nav class="flex" style="width: 100%; justify-content: space-between; align-items: center">
          <img src="{{logo.imagePath}}" alt="{{logo.imageAlt}}" style="height: 2em; width: 8em; margin: .5em">
         <ul class="flex" style="align-items: center;">
@@ -31,9 +31,7 @@
 </nav>
   {{/if}}
   </header>
-  <main>
     {{{ body }}}
-  </main>
   <footer>
       
   </footer>
