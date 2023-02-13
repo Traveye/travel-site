@@ -13,18 +13,10 @@ router.post('/', async (req, res) => {
       display_name: req.body.display_name,
       password: req.body.password,
     });
-    console.log(dbUserData)
-
-    // saving display name to global variable so it can be used in other routes
-    const displayName = dbUserData.display_name;
-    global.displayName = displayName;
 
     req.session.save(() => {
       req.session.user_id = dbUserData.id;
       req.session.loggedIn = true;
-
-      // res
-      // .status(200).json({message: 'You are now signed in!✅'})
       res.render('dashboard', {loggedIn: true})
     });
   } catch (err) {

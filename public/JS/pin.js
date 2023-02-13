@@ -37,6 +37,11 @@ const closeDeleteListBtn = document.getElementById('close-delete-list');
 const deleteListSubmitBtn = document.getElementById('delete-list-submit');
 const deleteListInput = document.getElementById('delete-list-input');
 const deletePinBtn = document.getElementById('delete-pin');
+const editPinBtn = document.getElementById('edit-pin');
+const editPinModal = document.getElementById('edit-pin-modal');
+const closeEditPinBtn = document.getElementById('close-edit-pin');
+const editPinSubmitBtn = document.getElementById('edit-pin-submit');
+const editPinTitleInput = document.getElementById('pin-title-edit');
 
 addTripSubmitBtn.addEventListener('click', async () => {
   try {
@@ -442,4 +447,43 @@ deletePinBtn.addEventListener('click', async (event) => {
   } else {
     alert('Failed to delete pin');
   }
+});
+
+const handleEditPinFormSubmit = async (pinId) => {
+  editPinSubmitBtn.addEventListener('click', async () => {
+    try {
+      const title = editPinTitleInput.value;
+      if (!title) {
+        alert('Please fill out all fields.');
+        return;
+      }
+      const response = await fetch(`/api/pin/${pinId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ location_name: title }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        document.location.replace(`/pin/${pinId}`);
+      } else {
+        alert('Failed to edit pin');
+      }
+      editPinModal.setAttribute('hidden', true);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+};
+
+closeEditPinBtn.addEventListener('click', () => {
+  editPinModal.setAttribute('hidden', true);
+});
+
+editPinBtn.addEventListener('click', async (event) => {
+  event.preventDefault();
+  const pinId = event.target.getAttribute('data-pin-id');
+  editPinTitleInput.value = '';
+  editPinModal.removeAttribute('hidden');
+  handleEditPinFormSubmit(pinId);
 });
