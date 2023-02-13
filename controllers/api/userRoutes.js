@@ -15,6 +15,10 @@ router.post('/', async (req, res) => {
     });
     console.log(dbUserData)
 
+    // saving display name to global variable so it can be used in other routes
+    const displayName = dbUserData.display_name;
+    global.displayName = displayName;
+
     req.session.save(() => {
       req.session.user_id = dbUserData.id;
       req.session.loggedIn = true;
@@ -52,6 +56,10 @@ router.post('/login', async (req, res) => {
         .json({ message: 'Incorrect Username or Password. Please try again!❌' });
       return;
     }
+
+    //saving the display name to global so it can be used in homeRoutes.js for navbar
+    const displayName = dbUserData.display_name;
+    global.displayName = displayName;
     // saves the session
     
     req.session.save(() => {

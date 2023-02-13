@@ -2,8 +2,13 @@ const router = require("express").Router();
 const { User, Pin, Trip, Journal } = require("../models/index");
 const withAuth = require("../utils/auth");
 
+
 router.get("/", (req, res) => {
   //TODO: add logic to check if user is logged in/redirect to dashboard if true
+  if(req.session.loggedIn) {
+    res.redirect("/dashboard");
+    return;
+  }
   const data = {
     logo: {
       imagePath: "/images/dropin.PNG",
@@ -19,6 +24,7 @@ router.get("/", (req, res) => {
 router.get("/dashboard", withAuth, async (req, res) => {
     //TODO: add logic to check if user is logged in/redirect to login if false
     //TODO: add logic to get user's pins, trips, and journals to pass to handlebars
+    const displayName = global.displayName;
     try {
         const tripData = await Pin.findAll({
           where: {
@@ -42,6 +48,7 @@ router.get("/dashboard", withAuth, async (req, res) => {
             },
             showNav: true,
             loggedIn: req.session.loggedIn,
+            display_name: displayName
         }; 
       
         res.render("dashboard", data);
@@ -53,6 +60,7 @@ router.get("/dashboard", withAuth, async (req, res) => {
 // :id is the pin id (when the user clicks on a pin)
 router.get('/pin/:id', async (req, res) => {
     // get all pins, trips, and journals for the pin
+    const displayName = global.displayName;
     try {
         const tripData = await Pin.findAll({
             where: {
@@ -115,6 +123,7 @@ router.get('/pin/:id', async (req, res) => {
             trips,
             pin,
             showNav: true,
+            display_name: displayName,
             logo: {
                 imagePath: "/images/dropin.PNG",
                 imageAlt: "Drop In logo" 

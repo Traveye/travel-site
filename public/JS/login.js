@@ -65,7 +65,6 @@ login.addEventListener("click", async () => {
       const data = await response.json();
       if(!data.errors) {
       window.location.assign("/dashboard");
-      alert("You have been logged in!");
       } else {
         alert("Failed to log in.");
       }
