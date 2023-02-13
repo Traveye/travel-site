@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Travel Blog</title>
+  <title>Travel Journal</title>
+  {{!-- <link rel="icon" href="{{logo.imagePath}}" type="image/x-icon"> --}}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
   crossorigin=""/>
   <link href="/output.css" rel="stylesheet">
-  {{!-- <script src="https://cdn.tailwindcss.com"></script> --}}
 </head>
-
 <body>
   <header>
   {{#if showNav}}
@@ -23,8 +23,7 @@
           </li>
           <li>
             <button class="inline-block no-underline font-medium text-lg py-2 px-4 lg:-ml-2" id="logout">LogOut</button>
-          </li>
-          
+          </li>  
         </ul>
       </nav>
   </div>
@@ -33,7 +32,6 @@
   </header>
     {{{ body }}}
   <footer>
-      
   </footer>
   {{#if showNav}}
   <script src="/JS/logout.js"></script>
