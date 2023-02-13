@@ -1,65 +1,122 @@
+// const { parseWithoutProcessing } = require("handlebars");
+
 var pins = [];
-var map = L.map("map").setView([0, 0], 2.5);
+var map = L.map("map").setView([28.263259736273202, -39.56979430867931], 2.5);
 // the 2.5 sets the zoom view for us
 
+// console.log(searchLayer)
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution:
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
+// console.log(searchControl)
 
+// L.Control.geocoder().addTo(map);
+// searchControl sets up the search bar rn it is collapsed  when clicked it will let user to 
+// type location then hit enter key and pick in drop down the location wanted
+var searchControl = L.Control.geocoder({
+    position: "topleft",
+    placeholder: "Search for location",
+    showResultIcons: true,
+    collapsed: true,
+    className: "search-control",
+  })
+    .on("click", function (e) {
+      var bbox = e.geocode.bbox;
+      var poly = L.polygon([
+        bbox.getSouthEast(),
+        bbox.getNorthEast(),
+        bbox.getNorthWest(),
+        bbox.getSouthWest(),
+      ]);
+      map.fitBounds(poly.getBounds());
+    }).addTo(map)
+    
+// this lets us add a new pin
 const newPin = async (e) => {
   map.on("click", async (e) => {
+    var location = prompt("Please enter a location name");
+
+    if (!location) {
+      alert("Please enter a location name.");
+      return;
+    }
+
     const response = await fetch("/api/pin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          coordinates: {"type": "Point", "coordinates": [e.latlng.lng, e.latlng.lat]},
-          // TODO: user_id needs login functionality
-        //   user_id: req.session.user_id,
-        }),
-      }).then((response) => response.json())
-    //   if (!response.ok) {
-    //     alert("Failed to create a new pin.");
-    //   }
-      console.log(response)
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        coordinates: {
+          type: "Point",
+          coordinates: [e.latlng.lng, e.latlng.lat],
+        },
+        // TODO: user_id needs login functionality
+        // user_id: req.session.user_id,
+      }),
+    }).then((response) => response.json());
+    if (!response.ok) {
+      alert("Failed to create a new pin.");
+    }
+    console.log(response);
     var pin = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-    console.log([e.latlng.lng, e.latlng.lat])
+    console.log([e.latlng.lat, e.latlng.lng]);
     pin.id = response.id;
     pins.push(pin);
-    pin.bindPopup(
-                "<b>Enter text for pin:</b><br><textarea id='pin-text'></textarea><br><button id='save-button'>Save</button>"
-              );
     console.log(pin);
-    pin.bindPopup("<a href='/pin/" + pin.id + "'>View Trip</a>");
+    pin.bindPopup(
+      `<b>Location Name:</b> ${location}<br/><a href='/pin/${pin.id}'>View Trip</a>`
+    );
     pin.openPopup();
-    
   });
 };
+
 newPin();
-// TODO: 
+// TODO:
 
 const fetchPins = async () => {
   const response = await fetch("/api/pin", {
     method: "GET",
     headers: { "Content-Type": "application/json" },
+  }).then((response) => response.json());
 
-  }).then((response) => response.json())
-
-  for(var i = 0; i < response.length; i++){
-    console.log(response[i])
-    if(response[i]){
-        console.log(response[i].coordinates.coordinates)
-        // response[i].coordinates
-        let marker = L.marker([response[i].coordinates.coordinates[1], response[i].coordinates.coordinates[0]]).addTo(map);
-        marker.bindPopup("<a href='/pin/" + response[i].id + "'>View Trip</a>");
-        pins.push(marker);
+  for (var i = 0; i < response.length; i++) {
+    console.log(response[i]);
+    if (response[i]) {
+      console.log(response[i].coordinates.coordinates);
+      // response[i].coordinates
+      let marker = L.marker([
+        response[i].coordinates.coordinates[1],
+        response[i].coordinates.coordinates[0],
+      ]).addTo(map);
+      marker.bindPopup("<a href='/pin/" + response[i].id + "'>View Trip</a>");
+      pins.push(marker);
     }
   }
-
-
 };
 fetchPins();
 
+//   map.on("click", async (e) => {
+//     const response = await fetch("/api/pin", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//           coordinates: {"type": "Point", "coordinates": [e.latlng.lng, e.latlng.lat]},
+//           // TODO: user_id needs login functionality
+//         //   user_id: req.session.user_id,
+//         }),
+//       }).then((response) => response.json())
+//       if (!response.ok) {
+//         alert("Failed to create a new pin.");
+//       }
+//       console.log(response)
+//     var pin = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+//     console.log([e.latlng.lng, e.latlng.lat])
+//     pin.id = response.id;
+//     pins.push(pin);
+//     console.log(pin);
+//     pin.bindPopup("<a href='/pin/" + pin.id + "'>View Trip</a>");
+//     pin.openPopup();
+//   });
 // const newPin = async (e) => {
 //     map.on("click", function (e) {
 //       var pin = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
