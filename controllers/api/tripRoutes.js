@@ -20,8 +20,9 @@ router.post('/', async (req, res) => {
 
 // a route to update a trip by id is completed
 router.put('/:id', async (req, res) => {
+    console.log(req.body)
     try {
-        const tripData = await Trip.update(req.body, {    // may need to be more explicit with req.body depending on how the front end is sending the data
+        const tripData = await Trip.update(req.body, {
             where: {
                 id: req.params.id,
             },

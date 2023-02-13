@@ -78,11 +78,13 @@
         </div>
         <form class="mt-2">
           <textarea
+            id="note-{{id}}"
             rows="4"
             class="shadow-md block mb-2 p-4 w-full text-sm text-gray-900 rounded-lg border border-gray-100 focus:ring-blue-500 focus:border-blue-300"
             placeholder="Write your thoughts here..."
           >{{notes}}</textarea>
           <button
+            data-trip-id="{{id}}"
             class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold save-note-btn"
           >
             Save Note

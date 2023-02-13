@@ -14,6 +14,7 @@ const editTripStartDateInput = document.getElementById('start-date-edit');
 const editTripEndDateInput = document.getElementById('end-date-edit');
 const closeEditTripBtn = document.getElementById('close-edit-trip');
 const editTripSubmitBtn = document.getElementById('edit-trip-submit');
+const saveNoteBtns = document.getElementsByClassName('save-note-btn');
 
 addTripSubmitBtn.addEventListener('click', async () => {
   try {
@@ -153,6 +154,28 @@ if (editTripBtns) {
       editTripEndDateInput.value = event.target.getAttribute('data-trip-date-end');
       editTripModal.removeAttribute('hidden');
       handleEditFormSubmit(tripId);
+    });
+  }
+}
+
+if (saveNoteBtns) {
+  for (let i = 0; i < saveNoteBtns.length; i++) {
+    saveNoteBtns[i].addEventListener('click', async (event) => {
+      event.preventDefault();
+      const tripId = event.target.getAttribute('data-trip-id');
+      const note = document.getElementById('note-' + tripId).value;
+      const response = await fetch(`/api/trip/${tripId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ notes: note }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        document.location.replace(`/pin/${pinId}`);
+      } else {
+        alert('Failed to save note');
+      }
     });
   }
 }
