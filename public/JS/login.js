@@ -1,5 +1,4 @@
 //functions to open and close the modals
-
 const modal1 = document.querySelector("#modal-1");
 const modal2 = document.querySelector("#modal-2");
 const openModal1 = document.querySelector("#signup");
@@ -7,6 +6,7 @@ const openModal2 = document.querySelector("#login");
 const closeModal = document.querySelector(".close-button");
 const signup = document.querySelector("#signup-call");
 const login = document.querySelector("#login-call");
+const username = document.querySelector("#username");
 
 openModal1.addEventListener("click", () => {
   modal1.showModal();
@@ -23,6 +23,7 @@ closeModal.addEventListener("click", () => {
 
 //makes the fetch call to create a new user
 signup.addEventListener("click", async () => {
+  
   const username = document.querySelector("#username").value.trim();
   const display_name = document.querySelector("#display_name").value.trim();
   const password = document.querySelector("#password").value.trim();
@@ -39,7 +40,7 @@ signup.addEventListener("click", async () => {
         document.location.replace("/dashboard");
         alert("You have been signed up!");
       } else {
-        alert("Failed to sign up.");
+        alert("Not signed up.");
       }
     } catch (error) {
       console.log("Error:", error);
@@ -71,6 +72,30 @@ login.addEventListener("click", async () => {
     } catch (error) {
       console.error("Error:", error);
       alert("Failed to log in.");
+    }
+  }
+});
+
+// this function is to check if the username typed in is already in the database
+username.addEventListener("blur", async (e) => {
+  e.preventDefault();
+  const nameTyped = document.querySelector("#username").value.trim();
+  if (nameTyped) {
+    try {
+      const response = await fetch("/api/user/username", {
+        method: "POST",
+        body: JSON.stringify({ nameTyped }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await response.json();
+      if (data) {
+        //this will render the message in our hidden div
+        hiddenDiv = document.querySelector("#nameCheck");
+        hiddenDiv.classList.remove("hidden");
+        hiddenDiv.innerHTML = "Username already taken.";
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   }
 });

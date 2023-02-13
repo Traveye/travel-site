@@ -3,9 +3,10 @@ const router = require('express').Router();
 const { User } = require('../../models');
 // requiring User model in order to 
 
+
 // route is to signup a user
 router.post('/', async (req, res) => {
-  console.log(req.body)
+
   try {
     // the signup body needs the username, display_name(full name), and password in order to be created
     const dbUserData = await User.create({
@@ -13,7 +14,7 @@ router.post('/', async (req, res) => {
       display_name: req.body.display_name,
       password: req.body.password,
     });
-    console.log(dbUserData)
+    
 
     // saving display name to global variable so it can be used in other routes
     const displayName = dbUserData.display_name;
@@ -23,9 +24,9 @@ router.post('/', async (req, res) => {
       req.session.user_id = dbUserData.id;
       req.session.loggedIn = true;
 
-      // res
-      // .status(200).json({message: 'You are now signed in!✅'})
-      res.render('dashboard', {loggedIn: true})
+      res
+      .status(200).json({message: 'You are now signed in!✅'})
+     
     });
   } catch (err) {
     console.log(err);
@@ -87,6 +88,19 @@ router.post('/logout', (req, res) => {
     });
   } else {
     res.status(404).end();
+  }
+});
+
+// route to get all current user names to check if the username is taken
+router.post('/username', async (req, res) => {
+  try {
+    const dbUserData = await User.findAll({
+      attributes: { exclude: ['password', 'display_name'] },
+    });
+    res.json(dbUserData);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
   }
 });
 
