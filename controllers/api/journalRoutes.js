@@ -61,4 +61,23 @@ router.delete("/:id", withAuth, async (req, res) => {
   }
 });
 
+router.delete("/", withAuth, async (req, res) => {
+  try {
+    const journalData = await Journal.destroy({
+      where: {
+        trip_id: req.body.trip_id,
+        label: req.body.label,
+        content: req.body.content,
+      },
+    });
+    if (!journalData) {
+      res.status(404).json({ message: "No journal found with this id!" });
+      return;
+    }
+    res.status(200).json(journalData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

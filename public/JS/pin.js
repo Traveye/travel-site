@@ -26,6 +26,11 @@ const addEntryModal = document.getElementById('add-entry-modal');
 const closeAddEntryBtn = document.getElementById('close-add-entry');
 const addEntryInput = document.getElementById('add-entry-input');
 const addEntrySubmitBtn = document.getElementById('add-entry-submit');
+const deleteEntryBtns = document.getElementsByClassName('delete-entry-btn');
+const deleteEntryModal = document.getElementById('delete-entry-modal');
+const closeDeleteEntryBtn = document.getElementById('close-delete-entry');
+const deleteEntrySubmitBtn = document.getElementById('delete-entry-submit');
+const deleteEntryInput = document.getElementById('delete-entry-input');
 
 addTripSubmitBtn.addEventListener('click', async () => {
   try {
@@ -284,11 +289,59 @@ if (addEntryBtns){
       event.preventDefault();
       const tripId = event.target.getAttribute('data-trip-id');
       const journalLabel = event.target.getAttribute('data-journal-label');
-      console.log(journalLabel);
-      console.log(tripId);
       addEntryInput.value = '';
       addEntryModal.removeAttribute('hidden');
       handleSubmitEntryForm(tripId, journalLabel);
+    });
+  }
+};
+
+closeDeleteEntryBtn.addEventListener('click', () => {
+  deleteEntryModal.setAttribute('hidden', true);
+});
+
+const handleSubmitDeleteEntryForm = async (tripId, journalLabel) => {
+  deleteEntrySubmitBtn.addEventListener('click', async () => {
+    try {
+      const entry = deleteEntryInput.value;
+      if (!entry) {
+        alert('Please fill out all fields.');
+        return;
+      }
+      const deleteEntry = {
+        content: entry,
+        label: journalLabel,
+        trip_id: tripId,
+      }
+      console.log(deleteEntry)
+      const response = await fetch('/api/journal', {
+        method: 'DELETE',
+        body: JSON.stringify(deleteEntry),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        document.location.replace(`/pin/${pinId}`);
+      } else {
+        alert('Failed to delete journal entry');
+      }
+      deleteJournalModal.setAttribute('hidden', true);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+};
+
+if (deleteEntryBtns){
+  for(let i = 0; i < deleteEntryBtns.length; i++){
+    deleteEntryBtns[i].addEventListener('click', async (event) => {
+      event.preventDefault();
+      const tripId = event.target.getAttribute('data-trip-id');
+      const journalLabel = event.target.getAttribute('data-journal-label');
+      deleteEntryInput.value = '';
+      deleteEntryModal.removeAttribute('hidden');
+      handleSubmitDeleteEntryForm(tripId, journalLabel);
     });
   }
 }
