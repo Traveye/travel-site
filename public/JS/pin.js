@@ -21,6 +21,11 @@ const journalEntryInput = document.getElementById('journal-entry-input');
 const closeAddJournalBtn = document.getElementById('close-add-journal');
 const addJournalModal = document.getElementById('add-journal-modal');
 const addJournalSubmitBtn = document.getElementById('add-journal-submit');
+const addEntryBtns = document.getElementsByClassName('add-entry-btn');
+const addEntryModal = document.getElementById('add-entry-modal');
+const closeAddEntryBtn = document.getElementById('close-add-entry');
+const addEntryInput = document.getElementById('add-entry-input');
+const addEntrySubmitBtn = document.getElementById('add-entry-submit');
 
 addTripSubmitBtn.addEventListener('click', async () => {
   try {
@@ -235,3 +240,55 @@ if(addListBtns){
     });
   }
 };
+
+closeAddEntryBtn.addEventListener('click', () => {
+  addEntryModal.setAttribute('hidden', true);
+});
+
+const handleSubmitEntryForm = async (tripId, journalLabel) => {
+  addEntrySubmitBtn.addEventListener('click', async () => {
+    try {
+      const entry = addEntryInput.value;
+      if (!entry) {
+        alert('Please fill out all fields.');
+        return;
+      }
+      const newEntry = {
+        content: entry,
+        label: journalLabel,
+        trip_id: tripId,
+      };
+      console.log(newEntry)
+      const response = await fetch('/api/journal', {
+        method: 'POST',
+        body: JSON.stringify(newEntry),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        document.location.replace(`/pin/${pinId}`);
+      } else {
+        alert('Failed to add list item');
+      }
+      addEntryModal.setAttribute('hidden', true);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+};
+
+if (addEntryBtns){
+  for(let i = 0; i < addEntryBtns.length; i++){
+    addEntryBtns[i].addEventListener('click', async (event) => {
+      event.preventDefault();
+      const tripId = event.target.getAttribute('data-trip-id');
+      const journalLabel = event.target.getAttribute('data-journal-label');
+      console.log(journalLabel);
+      console.log(tripId);
+      addEntryInput.value = '';
+      addEntryModal.removeAttribute('hidden');
+      handleSubmitEntryForm(tripId, journalLabel);
+    });
+  }
+}
