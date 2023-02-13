@@ -54,4 +54,22 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedPin = await Pin.update(
+      {
+        location_name: req.body.location_name,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    );
+    res.status(200).json(updatedPin);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
 module.exports = router;

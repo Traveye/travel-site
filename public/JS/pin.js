@@ -37,6 +37,11 @@ const closeDeleteListBtn = document.getElementById('close-delete-list');
 const deleteListSubmitBtn = document.getElementById('delete-list-submit');
 const deleteListInput = document.getElementById('delete-list-input');
 const deletePinBtn = document.getElementById('delete-pin');
+const editPinBtn = document.getElementById('edit-pin');
+const editPinModal = document.getElementById('edit-pin-modal');
+const closeEditPinBtn = document.getElementById('close-edit-pin');
+const editPinSubmitBtn = document.getElementById('edit-pin-submit');
+const editPinTitleInput = document.getElementById('pin-title-edit');
 
 addTripSubmitBtn.addEventListener('click', async () => {
   try {
@@ -73,7 +78,6 @@ addTripSubmitBtn.addEventListener('click', async () => {
         'Content-Type': 'application/json',
       },
     });
-    console.log(response);
     if (response.ok) {
       document.location.replace(`/pin/${pinId}`);
     } else {
@@ -142,7 +146,6 @@ const handleEditFormSubmit = async (tripId) => {
         pin_id: pinId,
         notes: '',
       };
-      console.log(tripId);
       const response = await fetch('/api/trip/' + tripId, {
         method: 'PUT',
         body: JSON.stringify(updateTrip),
@@ -150,7 +153,6 @@ const handleEditFormSubmit = async (tripId) => {
           'Content-Type': 'application/json',
         },
       });
-      console.log(response);
       if (response.ok) {
         document.location.replace(`/pin/${pinId}`);
       } else {
@@ -189,6 +191,12 @@ if (saveNoteBtns) {
       event.preventDefault();
       const tripId = event.target.getAttribute('data-trip-id');
       const note = document.getElementById('note-' + tripId).value;
+      const currentNote = await fetch(`/api/trip/${tripId}`).then((res) => {
+        return res.json()
+      });
+      if (currentNote.notes === note) {
+        return;
+      }
       const response = await fetch(`/api/trip/${tripId}`, {
         method: 'PUT',
         body: JSON.stringify({ notes: note }),
@@ -272,7 +280,6 @@ const handleSubmitEntryForm = async (tripId, journalLabel) => {
         label: journalLabel,
         trip_id: tripId,
       };
-      console.log(newEntry);
       const response = await fetch('/api/journal', {
         method: 'POST',
         body: JSON.stringify(newEntry),
@@ -322,7 +329,6 @@ const handleSubmitDeleteEntryForm = async (tripId, journalLabel) => {
         label: journalLabel,
         trip_id: tripId,
       };
-      console.log(deleteEntry);
       const response = await fetch('/api/journal/one', {
         method: 'DELETE',
         body: JSON.stringify(deleteEntry),
@@ -348,6 +354,25 @@ if (deleteEntryBtns) {
       event.preventDefault();
       const tripId = event.target.getAttribute('data-trip-id');
       const journalLabel = event.target.getAttribute('data-journal-label');
+      const metaData = JSON.parse(document.getElementById('meta-trip-' + tripId).getAttribute('data-meta')).trips;
+      // clear out the select options
+      while(deleteEntryInput.firstChild) {
+        deleteEntryInput.removeChild(deleteEntryInput.lastChild);
+      }
+      // add the options
+      for(let i = 0; i < metaData.length; i++) {
+        if(metaData[i].id == tripId) {
+          for(let j = 0; j < metaData[i].journals.length; j++) {
+            if(metaData[i].journals[j].label === journalLabel) {
+              const journalEntry = metaData[i].journals[j].content;
+              const option = document.createElement('option');
+              option.value = journalEntry;
+              option.textContent = journalEntry;
+              deleteEntryInput.appendChild(option);
+            }
+          }
+        }
+      }
       deleteEntryInput.value = '';
       deleteEntryModal.removeAttribute('hidden');
       handleSubmitDeleteEntryForm(tripId, journalLabel);
@@ -359,7 +384,6 @@ const handleDeleteListSubmit = async (tripId) => {
   deleteListSubmitBtn.addEventListener('click', async () => {
     try {
       const listLabel = deleteListInput.value;
-      console.log(listLabel);
       if (!listLabel) {
         alert('Please fill out all fields.');
         return;
@@ -386,7 +410,7 @@ const handleDeleteListSubmit = async (tripId) => {
 };
 
 closeDeleteListBtn.addEventListener('click', () => {
-  deleteEntryModal.setAttribute('hidden', true);
+  deleteListModal.setAttribute('hidden', true);
 });
 
 if (deleteListBtns) {
@@ -394,9 +418,25 @@ if (deleteListBtns) {
     deleteListBtns[i].addEventListener('click', async (event) => {
       event.preventDefault();
       const tripId = event.target.getAttribute('data-trip-id');
+      const metaData = JSON.parse(document.getElementById('meta-trip-' + tripId).getAttribute('data-meta')).trips;
+      // clear out the select options
+      while(deleteListInput.firstChild) {
+        deleteListInput.removeChild(deleteListInput.lastChild);
+      }
+      // add the options
+      for(let i = 0; i < metaData.length; i++) {
+        if(metaData[i].id == tripId) {
+          for(let j = 0; j < metaData[i].journals.length; j++) {
+            const journalLabel = metaData[i].journals[j].label;
+            const option = document.createElement('option');
+            option.value = journalLabel;
+            option.textContent = journalLabel;
+            deleteListInput.appendChild(option);
+          }
+        }
+      }
       deleteListInput.value = '';
       deleteListModal.removeAttribute('hidden');
-      console.log(tripId);
       handleDeleteListSubmit(tripId);
     });
   }
@@ -413,4 +453,43 @@ deletePinBtn.addEventListener('click', async (event) => {
   } else {
     alert('Failed to delete pin');
   }
+});
+
+const handleEditPinFormSubmit = async (pinId) => {
+  editPinSubmitBtn.addEventListener('click', async () => {
+    try {
+      const title = editPinTitleInput.value;
+      if (!title) {
+        alert('Please fill out all fields.');
+        return;
+      }
+      const response = await fetch(`/api/pin/${pinId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ location_name: title }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        document.location.replace(`/pin/${pinId}`);
+      } else {
+        alert('Failed to edit pin');
+      }
+      editPinModal.setAttribute('hidden', true);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+};
+
+closeEditPinBtn.addEventListener('click', () => {
+  editPinModal.setAttribute('hidden', true);
+});
+
+editPinBtn.addEventListener('click', async (event) => {
+  event.preventDefault();
+  const pinId = event.target.getAttribute('data-pin-id');
+  editPinTitleInput.value = '';
+  editPinModal.removeAttribute('hidden');
+  handleEditPinFormSubmit(pinId);
 });

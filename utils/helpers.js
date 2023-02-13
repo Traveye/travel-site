@@ -6,4 +6,7 @@ module.exports = {
 
     return `${M}/${DD}/${YYYY}`;
   },
+  json_stringify: (obj) => {
+    return JSON.stringify(obj);
+  }
 };
