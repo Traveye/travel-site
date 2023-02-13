@@ -191,6 +191,12 @@ if (saveNoteBtns) {
       event.preventDefault();
       const tripId = event.target.getAttribute('data-trip-id');
       const note = document.getElementById('note-' + tripId).value;
+      const currentNote = await fetch(`/api/trip/${tripId}`).then((res) => {
+        return res.json()
+      });
+      if (currentNote.notes === note) {
+        return;
+      }
       const response = await fetch(`/api/trip/${tripId}`, {
         method: 'PUT',
         body: JSON.stringify({ notes: note }),
