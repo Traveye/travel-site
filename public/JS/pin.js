@@ -31,6 +31,12 @@ const deleteEntryModal = document.getElementById('delete-entry-modal');
 const closeDeleteEntryBtn = document.getElementById('close-delete-entry');
 const deleteEntrySubmitBtn = document.getElementById('delete-entry-submit');
 const deleteEntryInput = document.getElementById('delete-entry-input');
+const deleteListBtns = document.getElementsByClassName('delete-list-btn');
+const deleteListModal = document.getElementById('delete-list-modal');
+const closeDeleteListBtn = document.getElementById('close-delete-list');
+const deleteListSubmitBtn = document.getElementById('delete-list-submit');
+const deleteListInput = document.getElementById('delete-list-input');
+
 
 addTripSubmitBtn.addEventListener('click', async () => {
   try {
@@ -314,7 +320,7 @@ const handleSubmitDeleteEntryForm = async (tripId, journalLabel) => {
         trip_id: tripId,
       }
       console.log(deleteEntry)
-      const response = await fetch('/api/journal', {
+      const response = await fetch('/api/journal/one', {
         method: 'DELETE',
         body: JSON.stringify(deleteEntry),
         headers: {
@@ -342,6 +348,51 @@ if (deleteEntryBtns){
       deleteEntryInput.value = '';
       deleteEntryModal.removeAttribute('hidden');
       handleSubmitDeleteEntryForm(tripId, journalLabel);
+    });
+  }
+}
+
+const handleDeleteListSubmit = async (tripId) => {
+  deleteListSubmitBtn.addEventListener('click', async () => {
+    try {
+      const listLabel = deleteListInput.value;
+      console.log(listLabel)
+      if (!listLabel) {
+        alert('Please fill out all fields.');
+        return;
+      }
+      const response = await fetch('/api/journal/all', {
+        method: 'DELETE',
+        body: JSON.stringify({trip_id: tripId, label: listLabel}),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        document.location.replace(`/pin/${pinId}`);
+      } else {
+        alert('Failed to delete list. Please make sure you are spelling the list name correctly.');
+      }
+      deleteListModal.setAttribute('hidden', true);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+};
+
+closeDeleteListBtn.addEventListener('click', () => {
+  deleteEntryModal.setAttribute('hidden', true);
+});
+
+if (deleteListBtns){
+  for(let i = 0; i < deleteListBtns.length; i++){
+    deleteListBtns[i].addEventListener('click', async (event) => {
+      event.preventDefault();
+      const tripId = event.target.getAttribute('data-trip-id');
+      deleteListInput.value = '';
+      deleteListModal.removeAttribute('hidden');
+      console.log(tripId)
+      handleDeleteListSubmit(tripId);
     });
   }
 }
