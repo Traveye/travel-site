@@ -83,6 +83,7 @@ router.get('/pin/:id', async (req, res) => {
         const trips = formattedTrips;
         res.render('pin', {
             trips,
+            pin,
             showNav: true,
         });
     } catch (err) {

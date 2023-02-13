@@ -2,15 +2,15 @@
       <div class="rounded-xl border p-5 shadow-md w-9/12 bg-white">
         <div class="flex w-full items-center justify-between border-b pb-3">
           <div class="flex items-center space-x-2">
-            <div class="text-lg font-bold text-slate-700">Wind River, Wyoming</div>
+            <div class="text-lg font-bold text-slate-700">{{pin.location_name}}</div>
           </div>
           <div class="flex items-center space-x-2">
-            <button
+            <button id="add-trip"
             class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold"
           >
             Add Trip
           </button>
-            <button
+            <button id="delete-pin"
             class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold"
           >
             Delete Pin
@@ -25,12 +25,12 @@
             </div>
             <div class="flex items-center space-x-2">
               <button
-                class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold"
+                class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold edit-trip-btn"
               >
               Edit Trip
               </button>
               <button
-              class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold"
+              class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold delete-trip-btn"
             >
               Delete Trip
             </button>
@@ -40,7 +40,7 @@
            {{date_start}} - {{date_end}}
         </div>
         <button
-        class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold"
+        class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold add-list-btn"
       >
       Add List
       </button>
@@ -53,7 +53,7 @@
             <ul class="list-disc">
                 <div class="text-lg font-semibold text-neutral-600">{{label}}        
                     <button
-                    class="rounded-md border bg-neutral-100 px-2 text-xs font-semibold"
+                    class="rounded-md border bg-neutral-100 px-2 text-xs font-semibold add-entry-btn"
                   >
                   +
                   </button>
@@ -65,8 +65,13 @@
             {{/each}}
           </div>
         </div>
-        <form>
-          <textarea rows="4" class="block p-4 w-full text-sm text-gray-900 rounded-lg border border-gray-100 focus:ring-blue-500 focus:border-blue-300" placeholder="Write your thoughts here..."></textarea>
-        </form>
         </div>
+        <form class="mt-2">
+          <textarea rows="4" class="shadow-md block mb-2 p-4 w-full text-sm text-gray-900 rounded-lg border border-gray-100 focus:ring-blue-500 focus:border-blue-300" placeholder="Write your thoughts here..."></textarea>
+          <button
+            class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold save-note-btn"
+          >
+          Save Note
+          </button>
+        </form>
         {{/each}}
