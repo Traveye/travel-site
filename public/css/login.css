@@ -1,0 +1,62 @@
+/* login page styling */
+#login-main {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 100vh;
+  }
+  
+  section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .modal {
+    padding: 1em;
+    max-width: 50ch;
+    min-width: 30ch;
+    box-shadow: 0 0 1em rgb(0 0 0 / 0.9);
+  }
+  
+  .modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .5em;
+  }
+  
+  .grid-col-span-2 {
+    grid-column: span 2;
+  }
+  
+  .button {
+    border: 0;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  
+  .input-field {
+    border: 1px solid #ddd;
+    padding: 8px;
+    width: 100%;
+  }
+  
+  #login, #signup {
+    margin-top: .5em;
+  }
+  
+  .open-button {
+    background-color: #00a1ff;
+    color: white;
+    font-size: 1.5rem;
+    padding: .5rem;
+    border-radius: 10px;
+  }
+
+  
