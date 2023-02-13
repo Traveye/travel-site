@@ -62,6 +62,7 @@ router.get('/pin/:id', withAuth, async (req, res) => {
                 title: pin.trips[i].title,
                 date_start: pin.trips[i].date_start,
                 date_end: pin.trips[i].date_end,
+                notes: pin.trips[i].notes,
             };
             const journals = {};
             const journalIteration = pin.trips[i].journals;
@@ -92,6 +93,7 @@ router.get('/pin/:id', withAuth, async (req, res) => {
             formattedTrips.push(trip);
         }
         const trips = formattedTrips;
+        console.log(trips)
         res.render('pin', {
             trips,
             pin,
