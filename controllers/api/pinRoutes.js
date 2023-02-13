@@ -6,6 +6,7 @@ router.post('/', async (req, res) => {
     const newPin = await Pin.create({
       coordinates: req.body.coordinates,
       user_id: req.session.user_id,
+      location_name: req.body.location_name,
     });
     res.status(200).json(newPin);
   } catch (err) {
@@ -48,6 +49,24 @@ router.delete('/:id', async (req, res) => {
       },
     });
     res.status(200).json(deletedPin);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedPin = await Pin.update(
+      {
+        location_name: req.body.location_name,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    );
+    res.status(200).json(updatedPin);
   } catch (err) {
     res.status(400).json(err);
   }
