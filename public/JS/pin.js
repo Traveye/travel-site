@@ -1,0 +1,78 @@
+const pinId = document.getElementById('pin').getAttribute('data-pin-id');
+const addTripModal = document.getElementById('add-trip-modal');
+const addTripBtn = document.getElementById('add-trip');
+const addTripTitleInput = document.getElementById('trip-title-input');
+const addTripStartDateInput = document.getElementById('start-date-input');
+const addTripEndDateInput = document.getElementById('end-date-input');
+const closeAddTripBtn = document.getElementById('close-add-trip');
+const addTripSubmitBtn = document.getElementById('add-trip-submit');
+const deleteTripBtns = document.getElementsByClassName('delete-trip-btn');
+
+
+addTripSubmitBtn.addEventListener('click', async () => {
+    try{
+        const tripTitle = addTripTitleInput.value;
+        const start_date = addTripStartDateInput.value;
+        const end_date = addTripEndDateInput.value;
+        if(!tripTitle || !start_date || !end_date) {
+            alert('Please fill out all fields.');
+            return
+        }
+        const tripStartDate = new Date(start_date).getFullYear() + '-' + (new Date(start_date).getMonth() + 1) + '-' + new Date(start_date).getDate();
+        const tripEndDate = new Date(end_date).getFullYear() + '-' + (new Date(end_date).getMonth() + 1) + '-' + new Date(end_date).getDate();
+        const newTrip = {
+            title: tripTitle,
+            date_start: tripStartDate,
+            date_end: tripEndDate,
+            pin_id: pinId,
+            notes: "",
+        };
+        console.log(newTrip);
+        const response = await fetch('/api/trip', {
+            method: 'POST',
+            body: JSON.stringify(newTrip),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log(response)
+        if (response.ok) {
+            document.location.replace(`/pin/${pinId}`);
+        } else {
+            alert('Failed to add trip');
+        }
+        addTripModal.setAttribute("hidden", true);
+    } catch (error) {
+        console.log(error);
+    }
+    });
+
+
+
+closeAddTripBtn.addEventListener('click', () => {
+    addTripModal.setAttribute("hidden", true);
+    });
+
+
+addTripBtn.addEventListener('click', () => {
+    addTripTitleInput.value = '';
+    addTripStartDateInput.value = '';
+    addTripEndDateInput.value = '';
+    addTripModal.removeAttribute("hidden");
+    });
+
+if(deleteTripBtns) {
+    for (let i = 0; i < deleteTripBtns.length; i++) {
+        deleteTripBtns[i].addEventListener('click', async (event) => {
+            const tripId = event.target.getAttribute('data-trip-id');
+            const response = await fetch(`/api/trip/${tripId}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                document.location.replace(`/pin/${pinId}`);
+            } else {
+                alert('Failed to delete trip');
+            }
+        });
+    }
+}

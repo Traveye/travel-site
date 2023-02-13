@@ -10,6 +10,7 @@ router.post('/', async (req, res) => {
             date_start: req.body.date_start,
             date_end: req.body.date_end,
             pin_id: req.body.pin_id,
+            notes: req.body.notes,
         });
         res.status(200).json(tripData);
     } catch (err) {

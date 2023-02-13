@@ -1,11 +1,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/datepicker.min.js"></script>
-<script src="/js/pin.js"></script>
-<div class="flex h-screen items-center justify-center bg-gray-100">
+<div class="flex items-center justify-center mt-3 bg-gray-100">
   <div class="flex items-center justify-center w-full">
     <div class="rounded-xl border p-5 shadow-md w-9/12 bg-white">
       <div class="flex w-full items-center justify-between border-b pb-3">
         <div class="flex items-center space-x-2">
-          <div class="text-lg font-bold text-slate-700">
+          <div id="pin" data-pin-id="{{pin.id}}" class="text-lg font-bold text-slate-700">
             {{pin.location_name}}
           </div>
         </div>
@@ -32,11 +31,13 @@
           </div>
           <div class="flex items-center space-x-2">
             <button
+              data-trip-id="{{id}}"
               class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold edit-trip-btn"
             >
               Edit Trip
             </button>
             <button
+              data-trip-id="{{id}}"
               class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold delete-trip-btn"
             >
               Delete Trip
@@ -88,12 +89,14 @@
 
       {{/each}}
     </div>
+  </div>
 
     <div
       class="relative z-10"
       role="dialog"
       aria-modal="true"
-      id="new-trip-modal"
+      id="add-trip-modal"
+      hidden
     >
       <div
         class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
@@ -106,6 +109,7 @@
             class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg flex flex-col items-center p-6"
           >
             <button
+              id="close-add-trip"
               type="button"
               class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
               data-modal-hide="defaultModal"
@@ -160,7 +164,7 @@
                     </svg>
                   </div>
                   <input
-                    id="start-date-submit"
+                    id="start-date-input"
                     name="start"
                     type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
@@ -187,7 +191,7 @@
                     </svg>
                   </div>
                   <input
-                    id="end-date-submit"
+                    id="end-date-input"
                     name="end"
                     type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
@@ -195,7 +199,7 @@
                   />
                 </div>
               </div>
-              <button class="text-sm mt-2 bg-blue-500 hover:bg-blue-700 text-gray-100 py-1 px-2 rounded-lg focus:outline-none focus:shadow-outline" type="button">
+              <button id="add-trip-submit" class="text-sm mt-2 bg-blue-500 hover:bg-blue-700 text-gray-100 py-1 px-2 rounded-lg focus:outline-none focus:shadow-outline" type="button">
               Submit
             </button>
             </form>
@@ -203,3 +207,4 @@
         </div>
       </div>
     </div>
+    <script src="/js/pin.js"></script>
