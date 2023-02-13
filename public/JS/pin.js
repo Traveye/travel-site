@@ -73,7 +73,6 @@ addTripSubmitBtn.addEventListener('click', async () => {
         'Content-Type': 'application/json',
       },
     });
-    console.log(response);
     if (response.ok) {
       document.location.replace(`/pin/${pinId}`);
     } else {
@@ -142,7 +141,6 @@ const handleEditFormSubmit = async (tripId) => {
         pin_id: pinId,
         notes: '',
       };
-      console.log(tripId);
       const response = await fetch('/api/trip/' + tripId, {
         method: 'PUT',
         body: JSON.stringify(updateTrip),
@@ -150,7 +148,6 @@ const handleEditFormSubmit = async (tripId) => {
           'Content-Type': 'application/json',
         },
       });
-      console.log(response);
       if (response.ok) {
         document.location.replace(`/pin/${pinId}`);
       } else {
@@ -272,7 +269,6 @@ const handleSubmitEntryForm = async (tripId, journalLabel) => {
         label: journalLabel,
         trip_id: tripId,
       };
-      console.log(newEntry);
       const response = await fetch('/api/journal', {
         method: 'POST',
         body: JSON.stringify(newEntry),
@@ -322,7 +318,6 @@ const handleSubmitDeleteEntryForm = async (tripId, journalLabel) => {
         label: journalLabel,
         trip_id: tripId,
       };
-      console.log(deleteEntry);
       const response = await fetch('/api/journal/one', {
         method: 'DELETE',
         body: JSON.stringify(deleteEntry),
@@ -348,6 +343,25 @@ if (deleteEntryBtns) {
       event.preventDefault();
       const tripId = event.target.getAttribute('data-trip-id');
       const journalLabel = event.target.getAttribute('data-journal-label');
+      const metaData = JSON.parse(document.getElementById('meta-trip-' + tripId).getAttribute('data-meta')).trips;
+      // clear out the select options
+      while(deleteEntryInput.firstChild) {
+        deleteEntryInput.removeChild(deleteEntryInput.lastChild);
+      }
+      // add the options
+      for(let i = 0; i < metaData.length; i++) {
+        if(metaData[i].id == tripId) {
+          for(let j = 0; j < metaData[i].journals.length; j++) {
+            if(metaData[i].journals[j].label === journalLabel) {
+              const journalEntry = metaData[i].journals[j].content;
+              const option = document.createElement('option');
+              option.value = journalEntry;
+              option.textContent = journalEntry;
+              deleteEntryInput.appendChild(option);
+            }
+          }
+        }
+      }
       deleteEntryInput.value = '';
       deleteEntryModal.removeAttribute('hidden');
       handleSubmitDeleteEntryForm(tripId, journalLabel);
@@ -359,7 +373,6 @@ const handleDeleteListSubmit = async (tripId) => {
   deleteListSubmitBtn.addEventListener('click', async () => {
     try {
       const listLabel = deleteListInput.value;
-      console.log(listLabel);
       if (!listLabel) {
         alert('Please fill out all fields.');
         return;
@@ -396,7 +409,6 @@ if (deleteListBtns) {
       const tripId = event.target.getAttribute('data-trip-id');
       deleteListInput.value = '';
       deleteListModal.removeAttribute('hidden');
-      console.log(tripId);
       handleDeleteListSubmit(tripId);
     });
   }

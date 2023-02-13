@@ -90,7 +90,9 @@
                   -
                 </button>
               </div>
+              
               {{#each content}}
+               <div id="meta-trip-{{../../id}}" data-meta="{{json_stringify ../../../pin}}" hidden></div>
               <li class="text-sm text-neutral-600 ml-5">{{entry}}</li>
               {{/each}}
             </ul>
@@ -536,16 +538,9 @@
             <span class="sr-only">Close modal</span>
           </button>
           <form>
-            <label
-              for="delete-entry-input"
-              class="block text-gray-700 text-md font-bold mb-2"
-              >Enter the list item to delete:</label
-            >
-            <input
-              id="delete-entry-input"
-              placeholder="Ex. Surfing"
-              class="mb-3 p-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500"
-            />
+              <label for="delete-entry-input" class="block text-gray-700 text-md font-bold mb-2">Select list item to delete:</label>
+              <select id="delete-entry-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+              </select>
             <div>
               <button
                 id="delete-entry-submit"
