@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Travel Blog</title>
+  <title>Travel Journal</title>
+  {{!-- <link rel="icon" href="{{logo.imagePath}}" type="image/x-icon"> --}}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
   crossorigin=""/>
@@ -11,11 +13,10 @@
   <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.min.js"></script>
   <link href="/output.css" rel="stylesheet">
 </head>
-
 <body>
   <header>
   {{#if showNav}}
-<nav id="header" class="w-full z-30 top-10 py-1 bg-white shadow-lg border-b mt-24">      
+<nav id="header" class="w-full z-30 top-10 py-1 bg-white shadow-lg border-b mt-2">      
       <nav class="flex" style="width: 100%; justify-content: space-between; align-items: center">
          <img src="{{logo.imagePath}}" alt="{{logo.imageAlt}}" style="height: 2em; width: 8em; margin: .5em">
         <ul class="flex" style="align-items: center;">
@@ -24,19 +25,15 @@
           </li>
           <li>
             <button class="inline-block no-underline font-medium text-lg py-2 px-4 lg:-ml-2" id="logout">LogOut</button>
-          </li>
-          
+          </li>  
         </ul>
       </nav>
   </div>
 </nav>
   {{/if}}
   </header>
-  <main>
     {{{ body }}}
-  </main>
   <footer>
-      
   </footer>
   {{#if showNav}}
   <script src="/JS/logout.js"></script>

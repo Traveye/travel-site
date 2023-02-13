@@ -23,6 +23,10 @@ Trip.init(
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
+    notes: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     pin_id: {
       type: DataTypes.INTEGER,
       references: {

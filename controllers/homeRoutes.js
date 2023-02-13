@@ -79,6 +79,7 @@ router.get('/pin/:id', async (req, res) => {
                 title: pin.trips[i].title,
                 date_start: pin.trips[i].date_start,
                 date_end: pin.trips[i].date_end,
+                notes: pin.trips[i].notes,
             };
             const journals = {};
             const journalIteration = pin.trips[i].journals;
@@ -98,7 +99,7 @@ router.get('/pin/:id', async (req, res) => {
                     content: [],
                 }
                 for(item in value) {
-                    contentObj = {
+                     const contentObj = {
                         entry: value[item],
                     }
                     formatObj.content.push(contentObj);
@@ -109,8 +110,10 @@ router.get('/pin/:id', async (req, res) => {
             formattedTrips.push(trip);
         }
         const trips = formattedTrips;
+        console.log(trips)
         res.render('pin', {
             trips,
+            pin,
             showNav: true,
             logo: {
                 imagePath: "/images/dropin.PNG",
