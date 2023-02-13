@@ -5,6 +5,10 @@ const withAuth = require("../utils/auth");
 
 router.get("/", (req, res) => {
   //TODO: add logic to check if user is logged in/redirect to dashboard if true
+  if(req.session.loggedIn) {
+    res.redirect("/dashboard");
+    return;
+  }
   const data = {
     logo: {
       imagePath: "/images/dropin.PNG",
