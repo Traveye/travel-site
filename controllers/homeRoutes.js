@@ -70,7 +70,7 @@ router.get('/pin/:id', async (req, res) => {
                     content: [],
                 }
                 for(item in value) {
-                    contentObj = {
+                     const contentObj = {
                         entry: value[item],
                     }
                     formatObj.content.push(contentObj);

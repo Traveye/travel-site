@@ -16,6 +16,10 @@ Pin.init(
             type: DataTypes.GEOMETRY('POINT'), // format is [longitude, latitude]]
             allowNull: false,
         },
+        location_name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         user_id: {
             type: DataTypes.INTEGER,
             references: {
