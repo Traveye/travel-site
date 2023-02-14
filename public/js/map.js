@@ -1,11 +1,11 @@
 var pins = [];
 
-var map = L.map('map', {
-    minZoom: 3,
-    maxZoom: 10
+var map = L.map("map", {
+  minZoom: 3,
+  maxZoom: 12,
 });
 
-// the 2.5 sets the zoom view for us
+
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution:
@@ -47,7 +47,14 @@ geocoder.addTo(map);
 const newPin = async (e) => {
   map.on("click", async (e) => {
     const { value: location } = await Swal.fire({
+      timer: 4000,
+      timerProgressBar: true,
+      didOpen: (time) => {
+        time.addEventListener("mouseenter", Swal.stopTimer);
+        time.addEventListener("mouseleave", Swal.resumeTimer);
+      },
       input: "text",
+      icon: "question",
       inputLabel: "Enter your location name!",
       inputPlaceholder: "Location name here",
       inputAttributes: {
