@@ -22,34 +22,80 @@ closeModal.addEventListener("click", () => {
 });
 
 //makes the fetch call to create a new user
-signup.addEventListener("click", async () => {
-  
-  const username = document.querySelector("#username").value.trim();
-  const display_name = document.querySelector("#display_name").value.trim();
-  const password = document.querySelector("#password").value.trim();
+signup.addEventListener("click", () => {
+  Swal.fire({
+    title: 'Sign Up',
+    html:
+      '<input type="text" id="username" placeholder="Username" class="input-field grid-col-span-2">' +
+      '<div id="nameCheck" class="hidden"></div>' +
+      '<input type="text" id="display_name" placeholder="Display Name" class="input-field grid-col-span-2">' +
+      '<input type="password" id="password" placeholder="Password" class="input-field grid-col-span-2">',
+    showCancelButton: true,
+    confirmButtonText: 'Sign Up',
+    cancelButtonText: 'Cancel',
+    focusConfirm: false,
+    preConfirm: async () => {
+      const username = document.querySelector("#username").value.trim();
+      const display_name = document.querySelector("#display_name").value.trim();
+      const password = document.querySelector("#password").value.trim();
 
-  if (username && display_name && password) {
-    try {
-      const response = await fetch("/api/user", {
-        method: "POST",
-        body: JSON.stringify({ username, display_name, password }),
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await response.json();
-      if (!data.errors) {
-        document.location.replace("/dashboard");
-        alert("You have been signed up!");
-      } else {
-        alert("Not signed up.");
+      if (!username || !display_name || !password) {
+        Swal.showValidationMessage("Please fill out all fields.");
+        return false;
       }
-    } catch (error) {
-      console.log("Error:", error);
-      alert("Failed to sign up.");
+
+      try {
+        const response = await fetch("/api/user", {
+          method: "POST",
+          body: JSON.stringify({ username, display_name, password }),
+          headers: { "Content-Type": "application/json" },
+        });
+        const data = await response.json();
+        if (data.errors) {
+          Swal.showValidationMessage("Failed to sign up.");
+          return false;
+        }
+      } catch (error) {
+        console.log("Error:", error);
+        Swal.showValidationMessage("Failed to sign up.");
+        return false;
+      }
+
+      return true;
     }
-  } else {
-    alert("Please fill out all fields.");
-  }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      document.location.replace("/dashboard");
+    }
+  });
+
+  const nameInput = Swal.getContent().querySelector("#username");
+  const nameCheck = Swal.getContent().querySelector("#nameCheck");
+  nameInput.addEventListener("blur", async () => {
+    nameCheck.classList.add("hidden");
+    nameCheck.innerHTML = "";
+  
+    const nameTyped = nameInput.value.trim();
+    if (nameTyped) {
+      try {
+        const response = await fetch("/api/user/username", {
+          method: "POST",
+          body: JSON.stringify({ nameTyped }),
+          headers: { "Content-Type": "application/json" },
+        });
+        const data = await response.json();
+      
+        if (data.message === "Username is taken!❌") {
+          nameCheck.classList.remove("hidden");
+          nameCheck.innerHTML = "Username already taken.";
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  });
 });
+
 
 //fucntion to make the fetch call to login
 login.addEventListener("click", async () => {
@@ -76,29 +122,3 @@ login.addEventListener("click", async () => {
   }
 });
 
-// this function is to check if the username typed in is already in the database
-username.addEventListener("blur", async () => {
-  let hiddenDiv = document.querySelector("#nameCheck");
-  hiddenDiv.classList.add("hidden");
-  hiddenDiv.innerHTML = "";
-  
-  const nameTyped = document.querySelector("#username").value.trim();
-  if (nameTyped) {
-    try {
-      const response = await fetch("/api/user/username", {
-        method: "POST",
-        body: JSON.stringify({ nameTyped }),
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await response.json();
-    
-      if (data.message === "Username is taken!❌") {
-        //this will render the message in our hidden div
-        hiddenDiv.classList.remove("hidden");
-        hiddenDiv.innerHTML = "Username already taken.";
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-});
