@@ -360,10 +360,14 @@ if (deleteEntryBtns) {
         deleteEntryInput.removeChild(deleteEntryInput.lastChild);
       }
       // add the options
+      const seenList = [];
       for(let i = 0; i < metaData.length; i++) {
         if(metaData[i].id == tripId) {
           for(let j = 0; j < metaData[i].journals.length; j++) {
             if(metaData[i].journals[j].label === journalLabel) {
+              if(seenList.includes(metaData[i].journals[j].content)) {
+                continue;
+              }
               const journalEntry = metaData[i].journals[j].content;
               const option = document.createElement('option');
               option.value = journalEntry;
@@ -424,10 +428,15 @@ if (deleteListBtns) {
         deleteListInput.removeChild(deleteListInput.lastChild);
       }
       // add the options
+      const seenList = [];
       for(let i = 0; i < metaData.length; i++) {
         if(metaData[i].id == tripId) {
           for(let j = 0; j < metaData[i].journals.length; j++) {
             const journalLabel = metaData[i].journals[j].label;
+            if(seenList.includes(journalLabel)) {
+              continue;
+            }
+            seenList.push(journalLabel);
             const option = document.createElement('option');
             option.value = journalLabel;
             option.textContent = journalLabel;
