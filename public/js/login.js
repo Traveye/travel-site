@@ -1,28 +1,14 @@
 //functions to open and close the modals
-const modal1 = document.querySelector("#modal-1");
-const modal2 = document.querySelector("#modal-2");
-const openModal1 = document.querySelector("#signup");
-const openModal2 = document.querySelector("#login");
+const newUser = document.querySelector("#signup");
+const user = document.querySelector("#login");
 const closeModal = document.querySelector(".close-button");
 const signup = document.querySelector("#signup-call");
 const login = document.querySelector("#login-call");
 const username = document.querySelector("#username");
 
-openModal1.addEventListener("click", () => {
-  modal1.showModal();
-});
-
-openModal2.addEventListener("click", () => {
-  modal2.showModal();
-});
-
-closeModal.addEventListener("click", () => {
-  modal1.close();
-  modal2.close();
-});
 
 //makes the fetch call to create a new user
-signup.addEventListener("click", () => {
+newUser.addEventListener("click", () => {
   Swal.fire({
     title: 'Sign Up',
     html:
@@ -69,8 +55,8 @@ signup.addEventListener("click", () => {
     }
   });
 
-  const nameInput = Swal.getContent().querySelector("#username");
-  const nameCheck = Swal.getContent().querySelector("#nameCheck");
+  const nameInput = Swal.getHtmlContainer().querySelector("#username");
+  const nameCheck = Swal.getHtmlContainer().querySelector("#nameCheck");
   nameInput.addEventListener("blur", async () => {
     nameCheck.classList.add("hidden");
     nameCheck.innerHTML = "";
@@ -87,7 +73,7 @@ signup.addEventListener("click", () => {
       
         if (data.message === "Username is taken!❌") {
           nameCheck.classList.remove("hidden");
-          nameCheck.innerHTML = "Username already taken.";
+          nameCheck.innerHTML = "Username is taken!❌";
         }
       } catch (error) {
         console.error("Error:", error);
@@ -98,7 +84,7 @@ signup.addEventListener("click", () => {
 
 
 //fucntion to make the fetch call to login
-login.addEventListener("click", async () => {
+user.addEventListener("click", async () => {
   const username = document.querySelector("#login-username").value.trim();
   const password = document.querySelector("#login-password").value.trim();
 
