@@ -12,6 +12,7 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
+// search bar 
 var geocoder = L.Control.geocoder({
   position: "topleft",
   placeholder: "Search for location",
@@ -19,6 +20,7 @@ var geocoder = L.Control.geocoder({
   collapsed: true,
   className: "search-control",
 }).on("markgeocode", async (event) => {
+  // once destination is selected the post route is fetched
   const response = await fetch("/api/pin", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -32,10 +34,12 @@ var geocoder = L.Control.geocoder({
   }).then((response) => {
     return response.json();
   });
+  // the coordinates for the placed marker    
   var marker = L.marker(event.geocode.center).addTo(map);
   marker.id = response.id;
   marker
     .bindPopup(
+        // gives location name to pin and when pin is clicked you will get a link to that pins trip
       `<b>Location Name:</b> ${event.geocode.name}<br/><a href='/pin/${marker.id}'>View Trip</a>`
     )
     .openPopup();
@@ -46,9 +50,13 @@ geocoder.addTo(map);
 
 const newPin = async (e) => {
   map.on("click", async (e) => {
+    // sweet alert modal
     const { value: location } = await Swal.fire({
+      // timer set to 4secs
       timer: 4000,
       timerProgressBar: true,
+      //  saying if the  mouse is  hovering over modal then stop time
+      //  if it leaves modal start timer and when time ends close modal
       didOpen: (time) => {
         time.addEventListener("mouseenter", Swal.stopTimer);
         time.addEventListener("mouseleave", Swal.resumeTimer);
@@ -66,6 +74,7 @@ const newPin = async (e) => {
         }
       },
     });
+    // fetch request to post the new pin in data base
     const response = await fetch("/api/pin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -79,10 +88,12 @@ const newPin = async (e) => {
     }).then((response) => {
       return response.json();
     });
+    // pin is dynamically marking  once name is saved
     var pin = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
     pin.id = response.id;
     pins.push(pin);
     pin.bindPopup(
+        // when pin is click on you will get name and link to that pins trip journal
       `<b>Location Name:</b> ${location}<br/><a href='/pin/${pin.id}'>View Trip</a>`
     );
     pin.openPopup();
@@ -93,22 +104,24 @@ const newPin = async (e) => {
 newPin();
 
 const fetchPins = async () => {
+// fecth a get request for all pins 
   const response = await fetch("/api/pin", {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   }).then((response) => response.json());
 
+  // looping through the repose and setting a pin/marker for each response index location
   for (var i = 0; i < response.length; i++) {
     console.log(response[i]);
     if (response[i]) {
       console.log(response[i].coordinates.coordinates);
-      // response[i].coordinates
       let marker = L.marker([
         response[i].coordinates.coordinates[1],
         response[i].coordinates.coordinates[0],
       ]).addTo(map);
-      marker.bindPopup("<a href='/pin/" + response[i].id + "'>View Trip</a>");
-      pins.push(marker);
+    //   each pin with have the location name and link to pin id trip page 
+      marker.bindPopup(`<b>Location Name:</b> ${response[i].location_name}<br/><a href='/pin/${response[i].id}'>View Trip</a>`);
+      pins.push(marker);response[i].id
     }
   }
 
