@@ -1,5 +1,3 @@
-// const { search } = require("../../controllers");
-
 var pins = [];
 
 var map = L.map("map", {
@@ -7,7 +5,7 @@ var map = L.map("map", {
   maxZoom: 12,
 });
 
-// the 2.5 sets the zoom view for us
+
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution:
