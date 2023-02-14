@@ -40,6 +40,8 @@ newUser.addEventListener("click", () => {
         if (data.errors) {
           Swal.showValidationMessage("Failed to sign up.");
           return false;
+        } else {
+          document.location.replace("/dashboard");
         }
       } catch (error) {
         console.log("Error:", error);
@@ -84,27 +86,45 @@ newUser.addEventListener("click", () => {
 
 
 //fucntion to make the fetch call to login
-user.addEventListener("click", async () => {
-  const username = document.querySelector("#login-username").value.trim();
-  const password = document.querySelector("#login-password").value.trim();
+user.addEventListener("click", () => {
+  Swal.fire({
+    title: 'Login',
+    html:
+    '<input type="text" id="login-username" placeholder="Username" class="input-field">' +
+    '<input type="password" id="login-password" placeholder="Password" class="input-field">',
+    showCancelButton: true,
+    confirmButtonText: 'Login',
+    cancelButtonText: 'Cancel',
+    focusConfirm: false,
+    preConfirm: async () => {
+      const username = document.querySelector("#login-username").value.trim();
+      const password = document.querySelector("#login-password").value.trim();
 
-  if (username && password) {
-    try {
-      const response = await fetch("/api/user/login", {
-        method: "POST",
-        body: JSON.stringify({ username, password }),
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await response.json();
-      if(!data.errors) {
-      window.location.assign("/dashboard");
-      } else {
-        alert("Failed to log in.");
+      if (!username || !password) {
+        Swal.showValidationMessage("Please fill out all fields.");
+        return false;
       }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Failed to log in.");
+
+      try {
+        const response = await fetch("/api/user/login", {
+          method: "POST",
+          body: JSON.stringify({ username, password }),
+          headers: { "Content-Type": "application/json" },
+        });
+        const data = await response.json();
+        if (data.errors) {
+          Swal.showValidationMessage("Failed to login.");
+          return false;
+        } else {
+          document.location.replace("/dashboard");
+        }
+      } catch (error) {
+        console.log("Error:", error);
+        Swal.showValidationMessage("Failed to login.");
+        return false;
+      }
     }
-  }
+
+  })
 });
 
