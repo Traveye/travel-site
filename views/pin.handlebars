@@ -2,7 +2,8 @@
 <div class="flex items-center justify-center mt-3">
   <div class="flex items-center justify-center w-full">
     <div class="rounded-xl border p-5 shadow-md w-9/12 bg-white">
-      <div class="flex w-full items-center justify-between border-b pb-3">
+      <div class="flex w-full items-center justify-between border-b pb-3" style="z-index: 1"
+
         <div class="flex items-center space-x-2">
           <div
             id="pin"
@@ -33,6 +34,9 @@
           >
             Delete Pin
           </button>
+          
+          <div id="fixedMap" style="height: 300px; width: 100%; overflow: hidden; z-index: 0"></div>
+        
         </div>
       </div>
       {{#each trips}}
@@ -683,4 +687,9 @@
   </div>
 
   <script src="/js/pin.js"></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
 </div>

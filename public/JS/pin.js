@@ -493,3 +493,37 @@ editPinBtn.addEventListener('click', async (event) => {
   editPinModal.removeAttribute('hidden');
   handleEditPinFormSubmit(pinId);
 });
+
+
+//code to add fixed map to pin page
+
+  // route to get the coordinate date for the pin from the url
+  const url = window.location.pathname;
+  const urlPin = url.substring(url.lastIndexOf('/') + 1);
+  // async function to get the coordinate data
+  const getCoordinates = async () => {
+    try {
+      //async fetch to get the coordinate data
+      const response = await fetch(`/api/pin/${urlPin}`) 
+      const data = await response.json();
+      const [longitude, latitude] = data.coordinates.coordinates;
+      return [latitude, longitude];
+    }
+    catch (error) {
+      console.log(error);
+    }
+  };
+
+window.onload = async function() {
+  // get the coordinates
+  let coordinates = await getCoordinates();
+
+  
+  // create the fixed map
+  var fixedmap = L.map("fixedMap").setView(coordinates, 10);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(fixedmap);
+};
