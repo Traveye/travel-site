@@ -77,8 +77,11 @@ login.addEventListener("click", async () => {
 });
 
 // this function is to check if the username typed in is already in the database
-username.addEventListener("blur", async (e) => {
-  e.preventDefault();
+username.addEventListener("blur", async () => {
+  let hiddenDiv = document.querySelector("#nameCheck");
+  hiddenDiv.classList.add("hidden");
+  hiddenDiv.innerHTML = "";
+  
   const nameTyped = document.querySelector("#username").value.trim();
   if (nameTyped) {
     try {
@@ -88,9 +91,9 @@ username.addEventListener("blur", async (e) => {
         headers: { "Content-Type": "application/json" },
       });
       const data = await response.json();
-      if (data) {
+    
+      if (data.message === "Username is taken!❌") {
         //this will render the message in our hidden div
-        hiddenDiv = document.querySelector("#nameCheck");
         hiddenDiv.classList.remove("hidden");
         hiddenDiv.innerHTML = "Username already taken.";
       }

@@ -94,10 +94,16 @@ router.post('/logout', (req, res) => {
 // route to get all current user names to check if the username is taken
 router.post('/username', async (req, res) => {
   try {
-    const dbUserData = await User.findAll({
-      attributes: { exclude: ['password', 'display_name'] },
+    const nameRequest = req.body.nameTyped;
+    console.log(nameRequest)
+    const user = await User.findOne({
+      where: { username: nameRequest },
     });
-    res.json(dbUserData);
+    console.log(user)
+    if(user) {
+      res.status(200).json({message: 'Username is taken!❌'})
+    }
+    
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
