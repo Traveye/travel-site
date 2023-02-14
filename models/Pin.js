@@ -13,7 +13,7 @@ Pin.init(
         },
 
         coordinates: {
-            type: DataTypes.GEOMETRY('POINT'), // format is [longitude, latitude]]
+            type: DataTypes.GEOMETRY('POINT'),
             allowNull: false,
         },
         location_name: {

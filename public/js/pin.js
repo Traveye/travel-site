@@ -49,7 +49,12 @@ addTripSubmitBtn.addEventListener('click', async () => {
     const start_date = addTripStartDateInput.value;
     const end_date = addTripEndDateInput.value;
     if (!tripTitle || !start_date || !end_date) {
-      alert('Please fill out all fields.');
+       
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please fill out all required fields.',
+        })
       return;
     }
     const tripStartDate =
@@ -81,7 +86,12 @@ addTripSubmitBtn.addEventListener('click', async () => {
     if (response.ok) {
       document.location.replace(`/pin/${pinId}`);
     } else {
-      alert('Failed to add trip');
+       
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to create trip.',
+        })
     }
     addTripModal.setAttribute('hidden', true);
   } catch (error) {
@@ -111,7 +121,12 @@ if (deleteTripBtns) {
       if (response.ok) {
         document.location.replace(`/pin/${pinId}`);
       } else {
-        alert('Failed to delete trip');
+         
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to delete trip.',
+        })
       }
     });
   }
@@ -124,7 +139,12 @@ const handleEditFormSubmit = async (tripId) => {
       const start_date = editTripStartDateInput.value;
       const end_date = editTripEndDateInput.value;
       if (!tripTitle || !start_date || !end_date) {
-        alert('Please fill out all fields.');
+         
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please fill out all required fields.',
+        })
         return;
       }
       const tripStartDate =
@@ -156,7 +176,12 @@ const handleEditFormSubmit = async (tripId) => {
       if (response.ok) {
         document.location.replace(`/pin/${pinId}`);
       } else {
-        alert('Failed to add trip');
+         
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to update trip.',
+        })
       }
       editTripModal.setAttribute('hidden', true);
     } catch (error) {
@@ -207,7 +232,12 @@ if (saveNoteBtns) {
       if (response.ok) {
         document.location.replace(`/pin/${pinId}`);
       } else {
-        alert('Failed to save note');
+         
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to save note.',
+        })
       }
     });
   }
@@ -223,7 +253,12 @@ const handleSubmitJournalForm = async (tripId) => {
       const journalLabel = journalLabelInput.value;
       const journalEntry = journalEntryInput.value;
       if (!journalLabel || !journalEntry) {
-        alert('Please fill out all fields.');
+         
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please fill out all required fields.',
+        })
         return;
       }
       const newJournal = {
@@ -241,7 +276,12 @@ const handleSubmitJournalForm = async (tripId) => {
       if (response.ok) {
         document.location.replace(`/pin/${pinId}`);
       } else {
-        alert('Failed to add journal entry');
+         
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to add journal entry.',
+        })
       }
       addJournalModal.setAttribute('hidden', true);
     } catch (error) {
@@ -272,7 +312,12 @@ const handleSubmitEntryForm = async (tripId, journalLabel) => {
     try {
       const entry = addEntryInput.value;
       if (!entry) {
-        alert('Please fill out all fields.');
+         
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please fill out all required fields.',
+        })
         return;
       }
       const newEntry = {
@@ -290,7 +335,12 @@ const handleSubmitEntryForm = async (tripId, journalLabel) => {
       if (response.ok) {
         document.location.replace(`/pin/${pinId}`);
       } else {
-        alert('Failed to add list item');
+         
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to add journal entry.',
+        })
       }
       addEntryModal.setAttribute('hidden', true);
     } catch (error) {
@@ -321,7 +371,12 @@ const handleSubmitDeleteEntryForm = async (tripId, journalLabel) => {
     try {
       const entry = deleteEntryInput.value;
       if (!entry) {
-        alert('Please fill out all fields.');
+         
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please fill out all required fields.',
+        })
         return;
       }
       const deleteEntry = {
@@ -339,7 +394,12 @@ const handleSubmitDeleteEntryForm = async (tripId, journalLabel) => {
       if (response.ok) {
         document.location.replace(`/pin/${pinId}`);
       } else {
-        alert('Failed to delete journal entry');
+         
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to delete journal entry.',
+        })
       }
       deleteJournalModal.setAttribute('hidden', true);
     } catch (error) {
@@ -389,7 +449,12 @@ const handleDeleteListSubmit = async (tripId) => {
     try {
       const listLabel = deleteListInput.value;
       if (!listLabel) {
-        alert('Please fill out all fields.');
+         
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please fill out all required fields.',
+        })
         return;
       }
       const response = await fetch('/api/journal/all', {
@@ -402,9 +467,13 @@ const handleDeleteListSubmit = async (tripId) => {
       if (response.ok) {
         document.location.replace(`/pin/${pinId}`);
       } else {
-        alert(
-          'Failed to delete list. Please make sure you are spelling the list name correctly.'
-        );
+         
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to delete journal list.',
+        })
+        return
       }
       deleteListModal.setAttribute('hidden', true);
     } catch (error) {
@@ -460,7 +529,12 @@ deletePinBtn.addEventListener('click', async (event) => {
   if (response.ok) {
     document.location.replace('/dashboard');
   } else {
-    alert('Failed to delete pin');
+     
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to delete pin.',
+        })
   }
 });
 
@@ -469,7 +543,12 @@ const handleEditPinFormSubmit = async (pinId) => {
     try {
       const title = editPinTitleInput.value;
       if (!title) {
-        alert('Please fill out all fields.');
+         
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please fill out all required fields.',
+        })
         return;
       }
       const response = await fetch(`/api/pin/${pinId}`, {
@@ -482,7 +561,12 @@ const handleEditPinFormSubmit = async (pinId) => {
       if (response.ok) {
         document.location.replace(`/pin/${pinId}`);
       } else {
-        alert('Failed to edit pin');
+         
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to edit pin.',
+        })
       }
       editPinModal.setAttribute('hidden', true);
     } catch (error) {
