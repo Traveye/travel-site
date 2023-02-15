@@ -5,6 +5,7 @@ const closeModal = document.querySelector(".close-button");
 const signup = document.querySelector("#signup-call");
 const login = document.querySelector("#login-call");
 const username = document.querySelector("#username");
+const backgroundEl = document.getElementById("login-main");
 
 
 //makes the fetch call to create a new user
@@ -128,3 +129,12 @@ user.addEventListener("click", () => {
   })
 });
 
+addEventListener("resize", () => {
+  console.log(window.innerWidth);
+  if(window.innerWidth <= 768) {
+    backgroundEl.replaceWith(... backgroundEl.childNodes);
+  } else {
+    backgroundEl.classList.add("background-image");
+    // "url("/images/loginbg-2.png")"
+}
+});
