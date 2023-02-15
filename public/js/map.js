@@ -111,6 +111,7 @@ const fetchPins = async () => {
   }).then((response) => response.json());
 
   // looping through the repose and setting a pin/marker for each response index location
+  if(response.length > 0){
   for (var i = 0; i < response.length; i++) {
     console.log(response[i]);
     if (response[i]) {
@@ -128,5 +129,9 @@ const fetchPins = async () => {
   var group = new L.featureGroup(pins);
 
   map.fitBounds(group.getBounds().pad(Math.sqrt(2) / 2));
+} else {
+    // if there are no pins then the map will zoom out to show the whole world
+    map.setView([0, 0], 3);
+}
 };
 fetchPins();
