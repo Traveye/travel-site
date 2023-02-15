@@ -9,6 +9,14 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
   crossorigin=""/>
+  <style>
+    @media (max-width: 768px){
+      #navbar {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
   <link href="/output.css" rel="stylesheet">
   {{#unless showNav}}
@@ -19,7 +27,7 @@
   <header>
   {{#if showNav}}
 <nav id="header" class="w-full z-30 top-10 py-1 bg-white shadow-lg border-b mt-2">      
-      <nav class="flex" style="width: 100%; justify-content: space-between; align-items: center">
+      <nav class="flex" id="navbar" style="width: 100%; justify-content: space-between; align-items: center">
          <img src="{{logo.imagePath}}" alt="{{logo.imageAlt}}" style="height: 2em; width: 8em; margin: .5em">
          <p>{{display_name}}'s Travel Journal</p>
         <ul class="flex" style="align-items: center;">
