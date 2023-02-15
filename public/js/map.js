@@ -104,7 +104,7 @@ const newPin = async (e) => {
 newPin();
 
 const fetchPins = async () => {
-// fecth a get request for all pins 
+// fetch a get request for all pins 
   const response = await fetch("/api/pin", {
     method: "GET",
     headers: { "Content-Type": "application/json" },
