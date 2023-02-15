@@ -22,23 +22,24 @@ App Link:
 Steps:
 1. Click the link
 2. Once landed on home page if you haven't signed up then click signup and enter information needed.
+![This is an image](./public/images/signUpRoute.png)
 3. If you have signed up the login with user information.
 4. You will land on a dashboard page and you can start adding pins to begin you journey.
+![This is an image](./public/images/pinPostRoute.png)
 
 
 ## Usage 
 
 Steps:
 1. Now that you are in the page and started creating pin you can get to the trip information by clicking pin and clicking on the "View Journal" link.
-![This is an image](./Develop/img/get-routes.png)
+![This is an image](./public/images/pinGetRoute.png)
 2. Now that you're in journal you can add a trip and details on the trip.
-![This is an image](./Develop/img/get-routes.png)
+![This is an image](./public/images/tripPostRoute.png)
 3. You can edit the pin name, trip, trip details, and notes.
-![This is an image](./Develop/img/post-put_routes.png)
+![This is an image](/public/images/pinPutRoute.png)
 4. Also you can delete the pin, trips, trip details, and notes all on the same page.
-![This is an image](./Develop/img/post-put_routes.png)
+![This is an image](./public/images/pinDeleteRoute.png)
 5. Nav bar is used to direct you home which is the dashboard or log out when you feel it is necessary.
-![This is an image](./Develop/img/delete-route.png)
 
 
 ## Credits
