@@ -129,8 +129,6 @@ user.addEventListener("click", () => {
   })
 });
 
-console.log(window.innerWidth);
-
 addEventListener("resize", () => {
   console.log(window.innerWidth);
   if(window.innerWidth <= 768) {
