@@ -3,11 +3,10 @@
 
 ## Description 
 
-We created this project because it is easy to forget the memories and specifics that happen on a trip. So we created a application that allows user to pick any place on a map and journal their experiences on the trip. After signing in you can click the map to drop a pin or search for a specific location to create a new pin. Then you will be able to open a new trip journal from the pin and enter in all of your memories.
+We created this project because it is easy to forget the memories and specifics that happen on a trip. So we created a application that allows user to pick any place on a map and journal their experiences on the trip. We wanted to make sure the that users can have multiple different trips with journal entries and we solved that by letting each pin on the map contain link to that specific trip and journal information.
 
-
-
-App Link: [DROPIN](http://dropin.herokuapp.com)
+App Link:
+(http://dropin.herokuapp.com)
 
 ## Table of Contents
 
@@ -16,7 +15,8 @@ App Link: [DROPIN](http://dropin.herokuapp.com)
 * [Credits](#credits)
 * [License](#license)
 * [Badges](#badges)
-
+* [Models and Routes](#models-and-routes)
+* [New libraries/NPM Packages](#new-libraries/npm-packages)
 
 ## Installation
 
@@ -42,10 +42,49 @@ Steps:
 ![This is an image](./public/images/pinDeleteRoute.png)
 5. Nav bar is used to direct you home which is the dashboard or log out when you feel it is necessary.
 
+## Models and Routes
+
+Below is an ERD of our database schema and table relationships. We used MySQL for our database and Sequelize for our ORM.
+
+![ERD](./assets/images/db-erd.png)
+
+Below is a list of our API routes and their corresponding controller methods.
+
+| Route | HTTP Verb | Description |
+| ----- | --------- | ----------- |
+| `/api/users` | `GET` | Get all users |
+| `/api/users` | `POST` | Create a new user |
+| `/api/users/:id` | `GET` | Get a user by id |
+| `/api/users/:id` | `PUT` | Update a user by id |
+| `/api/pins` | `GET` | Get all pins |
+| `/api/pins` | `POST` | Create a new pin |
+| `/api/pins/:id` | `GET` | Get a pin by id |
+| `/api/pins/:id` | `PUT` | Update a pin by id |
+| `/api/pins/:id` | `DELETE` | Delete a pin by id |
+| `/api/trips` | `GET` | Get all trips |
+| `/api/trips` | `POST` | Create a new trip |
+| `/api/trips/:id` | `GET` | Get a trip by id |
+| `/api/trips/:id` | `PUT` | Update a trip by id |
+| `/api/trips/:id` | `DELETE` | Delete a trip by id |
+| `/api/journals` | `GET` | Get all trip journals |
+| `/api/journals` | `POST` | Create a new trip journal |
+| `/api/journals/:id` | `GET` | Get a trip journal by id |
+| `/api/journals/:id` | `PUT` | Update a trip journal by id |
+| `/api/journals/:id` | `DELETE` | Delete a trip journal by id |
+
+## New libraries/NPM Packages
+
+[Leaflet](https://leafletjs.com/) - Leaflet is the leading open-source JavaScript library for mobile-friendly interactive maps. We use it to load a map on our page and allow users to drop pins on the map.
+
+![example-gif](./assets/images/leaflet-example.gif)
+
+[SweetAlert](https://sweetalert2.github.io/) - A beautiful, responsive, customizable, and accessible replacement for JavaScript's popup boxes. Zero dependencies.
+
+![example-gif](./assets/images/sweetalert-example.gif)
 
 ## Credits
 
-Tracis Dupree
+Travis Dupree
 https://github.com/Traveye
 McCoy Didericksen
 https://github.com/mccoydidericksen
