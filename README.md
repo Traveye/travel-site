@@ -1,5 +1,5 @@
 # DROPIN
-![This is an image](./public/images/dropin.PNG)
+![dropin logo](./public/images/dropin.PNG)
 
 ## Table of Contents
 
@@ -8,11 +8,10 @@
 * [User Stories](#user-stories)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Credits](#credits)
-* [License](#license)
-* [Badges](#badges)
 * [Models and Routes](#models-and-routes)
 * [New libraries/NPM Packages](#new-libraries/npm-packages)
+* [Credits](#credits)
+* [License](#license)
 
 ## Description 
 
@@ -38,9 +37,11 @@ Try it here: [DROPIN](http://dropin.herokuapp.com) with the username: guest and 
 - ![badge](https://img.shields.io/badge/dotenv-07B787?style=flat-square&logo=dotenv&logoColor=white)
 - ![badge](https://img.shields.io/badge/bcrypt-3478C8?style=flat-square&logo=bcrypt&logoColor=white)
 
-## User Stories
+## User Stories 
 
 1. As a user, I want a login/sign up form so that my personal data will be private and persist. 
+
+This required two post routes to create a new user and to login an existing user. We also included a third route to verify if the username typed was avaialble. 
 
 ![gif of login popup](./public/images/login.gif)
 
@@ -69,23 +70,17 @@ Try it here: [DROPIN](http://dropin.herokuapp.com) with the username: guest and 
 Steps:
 1. Click the link
 2. Once landed on home page if you haven't signed up then click signup and enter information needed.
-![This is an image](./public/images/signUpRoute.png)
 3. If you have signed up the login with user information.
 4. You will land on a dashboard page and you can start adding pins to begin you journey.
-![This is an image](./public/images/pinPostRoute.png)
 
 
 ## Usage 
 
 Steps:
 1. Now that you are in the page and started creating pin you can get to the trip information by clicking pin and clicking on the "View Journal" link.
-![This is an image](./public/images/pinGetRoute.png)
 2. Now that you're in journal you can add a trip and details on the trip.
-![This is an image](./public/images/tripPostRoute.png)
 3. You can edit the pin name, trip, trip details, and notes.
-![This is an image](/public/images/pinPutRoute.png)
 4. Also you can delete the pin, trips, trip details, and notes all on the same page.
-![This is an image](./public/images/pinDeleteRoute.png)
 5. Nav bar is used to direct you home which is the dashboard or log out when you feel it is necessary.
 
 ## Models and Routes
@@ -146,31 +141,35 @@ Tailwinds CSS is a open source framework that allows the user full freedom to cu
 
 Some learning curves we had was working with tailwinds caused some transitioning issues but once the we referred to the correct docs we seen the npm package was different from the the CDM. Another learning curve was using Leaflet with handlebars, we had difficulties implementing the correct script but once we notice the syntax error we were able to smoothly work through our js file for the map.
 
-## Contact Information
+## Authors Contact Information
 
-1. Travis Dupree:
-  * https://github.com/Traveye
-  * https://www.linkedin.com/in/travis-dupree-96380218b/
+1. Travis DuPree:
+  * [Github](https://github.com/Traveye)
+  * [LinkedIn](https://www.linkedin.com/in/travis-dupree-96380218b/)
 2. McCoy Didericksen:
-  * https://github.com/mccoydidericksen
-  * https://www.linkedin.com/in/mccoydid/
+  * [Github](https://github.com/mccoydidericksen)
+  * [LinkedIn](https://www.linkedin.com/in/mccoydid/)
 3. Jonathan Pohahau:
-  * https://github.com/j-pohahau5 
-  * https://www.linkedin.com/in/jonathan-pohahau/
+  * [Github](https://github.com/j-pohahau5) 
+  * [LinkedIn](https://www.linkedin.com/in/jonathan-pohahau/)
 
 ## Credits
 
-https://tailwindcss.com/
-https://leafletjs.com/
-https://sweetalert2.github.io/
-https://www.cloudflare.com/
-https://www.w3schools.com/
-https://developer.mozilla.org/en-US/
-https://getbootstrap.com/
-https://choosealicense.com/licenses/mit/
+- Travis DuPree [Github](https://github.com/Traveye)
+- McCoy Didericksen [Github](https://github.com/mccoydidericksen)
+- Jonathan Pohahau [Github](https://github.com/j-pohahau5) 
+- [Tailwinds](https://tailwindcss.com/)
+- [Leaflet](https://leafletjs.com/)
+- [Sweet Alert](https://sweetalert2.github.io/)
+- [Cloudflare](https://www.cloudflare.com/)
+- [W3Schools](https://www.w3schools.com/)
+- [Mozilla](https://developer.mozilla.org/en-US/)
+- [Bootstrap](https://getbootstrap.com/)
+- [MIT](https://choosealicense.com/licenses/mit/)
 
 
 ## License
+![badge](https://img.shields.io/badge/license-MIT-orange)
 
 MIT License
 
@@ -194,8 +193,4 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-
-## Badges
-
-![badge](https://img.shields.io/badge/license-MIT-orange)
 
