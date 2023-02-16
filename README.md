@@ -1,15 +1,11 @@
 # DROPIN
 ![This is an image](./public/images/dropin.PNG)
 
-## Description 
-
-We created this project because it is easy to forget the memories and specifics that happen on a trip. So we created a application that allows user to pick any place on a map and journal their experiences on the trip. We wanted to make sure the that users can have multiple different trips with journal entries and we solved that by letting each pin on the map contain link to that specific trip and journal information.
-
-App Link:
-(http://dropin.herokuapp.com)
-
 ## Table of Contents
 
+* [Description](#description)
+* [Technologies Used](#technologies-used)
+* [User Stories](#user-stories)
 * [Installation](#installation)
 * [Usage](#usage)
 * [Credits](#credits)
@@ -17,6 +13,56 @@ App Link:
 * [Badges](#badges)
 * [Models and Routes](#models-and-routes)
 * [New libraries/NPM Packages](#new-libraries/npm-packages)
+
+## Description 
+
+We created this project because it is easy to forget the memories and specifics that happen on a trip. So we created a application that allows user to pick any place on a map and journal their experiences on the trip. We wanted to make sure the that users can have multiple different trips with journal entries and we solved that by letting each pin on the map contain link to that specific trip and journal information.
+
+![GIF demof of the site](./public/images/demo.gif)
+
+Try it here: [DROPIN](http://dropin.herokuapp.com) with the username: guest and password: Guest1234 .
+
+## Technologies Used
+
+- ![badge](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+- ![badge](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3)
+- ![badge](https://img.shields.io/badge/Tailwind%20CSS-v2.2.7-blue?style=flat-square&logo=tailwind-css)
+- ![badge](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+- ![badge](https://img.shields.io/badge/Node.js-43853D?style=flat-square&logo=node-dot-js&logoColor=white)
+- ![badge](https://img.shields.io/badge/Express.js-000000?style=flat-square&logo=express&logoColor=white)
+- ![badge](https://img.shields.io/badge/Handlebars.js-F0772C?style=flat-square&logo=handlebars-dot-js&logoColor=white)
+- ![badge](https://img.shields.io/badge/Leaflet-199900?style=flat-square&logo=leaflet&logoColor=white)
+- ![badge](https://img.shields.io/badge/SweetAlert-FF781F?style=flat-square&logo=sweetalert&logoColor=white)
+- ![badge](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
+- ![badge](https://img.shields.io/badge/Sequelize-52B0E7?style=flat-square&logo=sequelize&logoColor=white)
+- ![badge](https://img.shields.io/badge/dotenv-07B787?style=flat-square&logo=dotenv&logoColor=white)
+- ![badge](https://img.shields.io/badge/bcrypt-3478C8?style=flat-square&logo=bcrypt&logoColor=white)
+
+## User Stories
+
+1. As a user, I want a login/sign up form so that my personal data will be private and persist. 
+
+![gif of login popup](./public/images/login.gif)
+
+2. As a user, I want to be presented with an interactive map so that I can mark locations (with a pin) of places that I’ve visited.
+
+![interactive map demo](./public/images/mapdemo.gif)
+
+3. As a user when I mark a new location, then I am presented with a form to enter details about my trip so that I can organize and store trip information I want to remember.
+
+![pin demo](./public/images/pindemo.gif)
+
+4. As a user when I click one of my pins, I am presented with a separate page with my trip details so that I can reflect and remember my experiences.
+
+![trip-load demo](./public/images/newtripdemo.gif)
+
+5. As a user when I am viewing a specific trip’s details I am presented with buttons so that I can add/update/delete my experiences/notes.
+
+![trip details demo](./public/images/addtripdemo.gif)
+
+6. As a user when I am done using the site, I have the option to log out so that  I can keep my personal data safe
+
+![logout demo](./public/images/logoutdemo.gif)
 
 ## Installation
 
@@ -128,19 +174,4 @@ SOFTWARE.
 ## Badges
 
 ![badge](https://img.shields.io/badge/license-MIT-orange)
-![badge](https://img.shields.io/badge/language-JavaScript-green)
-![badge](https://img.shields.io/badge/language-Nodejs-brightgreen)
-![badge](https://img.shields.io/badge/library-HandleBars-lightgrey) 
-![badge](https://img.shields.io/badge/library-Leaflet-yellowgreen)
-![badge](https://img.shields.io/badge/library-SweetAlert-pink)
-![badge](https://img.shields.io/badge/DataBase-MySQL-blueviolet)
-![badge](https://img.shields.io/badge/npm-sequelize-red)
-![badge](https://img.shields.io/badge/npm-dotenv-red)
-![badge](https://img.shields.io/badge/npm-bcrypt-red)
-![badge](https://img.shields.io/badge/npm-express-red)
-![badge](https://img.shields.io/badge/npm-dotenv-red)
-![badge](https://img.shields.io/badge/npm-nodemon-red)
-![badge](https://img.shields.io/badge/npm-dotenv-red)
-![badge](https://img.shields.io/badge/npm-dotenv-red)
-![badge](https://img.shields.io/badge/npm-dotenv-red)
-![badge](https://img.shields.io/badge/npm-dotenv-red)
+
