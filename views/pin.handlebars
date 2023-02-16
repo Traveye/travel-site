@@ -1,16 +1,696 @@
-<div>
-    {{#each trips}}
-    <div>
-        <p>{{title}}</p>
-        <button></button>
-        <p>{{date_start}}</p>
-        <p>{{date_end}}</p>
-        {{#each journals}}
-        <p>{{label}}</p>
-        {{#each content}}
-        <p>{{entry}}</p>
-        {{/each}}
-        {{/each}}
-        {{/each}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/datepicker.min.js"></script>
+<div class="mt-3"> 
+  <div class="w-full" style="display: flex; flex-direction: column; justify-content: center; align-items: center">
+    <div class="rounded-xl border p-5 shadow-md w-9/12 bg-white">
+      <div class="w-full border-b pb-2 justify-between">
+        <div class="space-x-2">
+          <div
+            id="pin"
+            data-pin-id="{{pin.id}}"
+            class="text-lg font-bold text-slate-700"
+          >
+            {{pin.location_name}}
+          </div>
+        </div>
+        <div class="space-x-2">
+          <button
+            id="add-trip"
+            class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold"
+          >
+            Add Trip
+          </button>
+          <button
+            id="edit-pin"
+            data-pin-id="{{pin.id}}"
+            class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold"
+          >
+            Edit Pin
+          </button>
+          <button
+            id="delete-pin"
+            data-pin-id="{{pin.id}}"
+            class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold"
+          >
+            Delete Pin
+          </button>
+        </div>
+        </div>
+        <div id="fixedMap" style="height: 300px; width: 100%; overflow: hidden; z-index: 1;"></div>
+      </div>
+      
+      
+      {{#each trips}}
+      <div class="rounded-xl border p-5 pt-2 pb-2 shadow-md w-9/12 bg-white mt-1 mb-1">
+        <div class="flex w-full items-center justify-between pb-1 pt-3">
+          <div class="flex items-center space-x-2">
+            <div class="text-xl font-bold text-slate-700">{{title}}</div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button
+              data-trip-id="{{id}}"
+              data-trip-title="{{title}}"
+              data-trip-date-start="{{format_date date_start}}"
+              data-trip-date-end="{{format_date date_end}}"
+              class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold edit-trip-btn"
+            >
+              Edit Trip
+            </button>
+            <button
+              data-trip-id="{{id}}"
+              class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold delete-trip-btn"
+            >
+              Delete Trip
+            </button>
+          </div>
+        </div>
+        <div class="text-xs text-neutral-600 mb-2">
+          {{format_date date_start}} - {{format_date date_end}}
+        </div>
+        <button
+          data-trip-id="{{id}}"
+          class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold add-list-btn"
+        >
+          Add List
+        </button>
+        <button
+          data-trip-id="{{id}}"
+          class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold delete-list-btn"
+        >
+          Delete List
+        </button>
+        <div class="mt-2 mb-4">
+          <div class="text-sm text-neutral-600"></div>
+
+          <div class="text-sm text-neutral-600 grid grid-cols-3 gap-2">
+            {{#each journals}}
+            <ul class="list-disc">
+              <div class="text-lg font-semibold text-neutral-600">
+                {{label}}
+                <button
+                  data-trip-id="{{../id}}"
+                  data-journal-label="{{label}}"
+                  class="rounded-md border bg-neutral-100 px-2 text-xs font-semibold add-entry-btn"
+                >
+                  +
+                </button>
+                <button
+                  data-trip-id="{{../id}}"
+                  data-journal-label="{{label}}"
+                  class="rounded-md border bg-neutral-100 px-2 text-xs font-semibold delete-entry-btn"
+                >
+                  -
+                </button>
+              </div>
+              
+              {{#each content}}
+               <div id="meta-trip-{{../../id}}" data-meta="{{json_stringify ../../../pin}}" hidden></div>
+              <li class="text-sm text-neutral-600 ml-5">{{entry}}</li>
+              {{/each}}
+            </ul>
+            {{/each}}
+          </div>
+        </div>
+        <form class="mt-2">
+          <textarea
+            id="note-{{id}}"
+            rows="4"
+            class="shadow-md block mb-2 p-4 w-full text-sm text-gray-900 rounded-lg border border-gray-100 focus:ring-blue-500 focus:border-blue-300"
+            placeholder="Write your thoughts here..."
+          >
+{{notes}}</textarea
+          >
+          <button
+            data-trip-id="{{id}}"
+            class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold save-note-btn"
+          >
+            Save Note
+          </button>
+        </form>
+      </div>
+
+      {{/each}}
     </div>
+  </div>
+
+  <div
+    class="relative z-10"
+    role="dialog"
+    aria-modal="true"
+    id="add-trip-modal"
+    hidden
+  >
+    <div
+      class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+    ></div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div
+        class="flex min-h-full items-center justify-center text-center sm:items-center sm:p-0"
+      >
+        <div
+          class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg flex flex-col items-center p-6"
+        >
+          <button
+            id="close-add-trip"
+            type="button"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+            data-modal-hide="defaultModal"
+          >
+            <svg
+              aria-hidden="true"
+              class="w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+          <form>
+            <label
+              for="trip-title-input"
+              class="block text-gray-700 text-md font-bold mb-2"
+              >Trip Title</label
+            >
+            <input
+              id="trip-title-input"
+              placeholder="Ex. Beach Vacation"
+              class="mb-3 p-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500"
+            />
+            <label class="block text-gray-700 text-md font-bold mb-2"
+              >Trip Dates</label
+            >
+            <div date-rangepicker class="flex items-center">
+              <div class="relative">
+                <div
+                  class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="w-5 h-5 text-gray-500"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  id="start-date-input"
+                  name="start"
+                  type="text"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+                  placeholder="Select date start"
+                />
+              </div>
+              <span class="mx-4 text-gray-500">to</span>
+              <div class="relative">
+                <div
+                  class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="w-5 h-5 text-gray-500"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  id="end-date-input"
+                  name="end"
+                  type="text"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+                  placeholder="Select date end"
+                />
+              </div>
+            </div>
+            <button
+              id="add-trip-submit"
+              class="text-sm mt-2 bg-blue-500 hover:bg-blue-700 text-gray-100 py-1 px-2 rounded-lg focus:outline-none focus:shadow-outline"
+              type="button"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="relative z-10"
+    role="dialog"
+    aria-modal="true"
+    id="edit-trip-modal"
+    hidden
+  >
+    <div
+      class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+    ></div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div
+        class="flex min-h-full items-center justify-center text-center sm:items-center sm:p-0"
+      >
+        <div
+          class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg flex flex-col items-center p-6"
+        >
+          <button
+            id="close-edit-trip"
+            type="button"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+            data-modal-hide="defaultModal"
+          >
+            <svg
+              aria-hidden="true"
+              class="w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+          <form>
+            <label
+              for="trip-title-edit"
+              class="block text-gray-700 text-md font-bold mb-2"
+              >Trip Title</label
+            >
+            <input
+              id="trip-title-edit"
+              placeholder="Ex. Beach Vacation"
+              class="mb-3 p-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500"
+            />
+            <label class="block text-gray-700 text-md font-bold mb-2"
+              >Trip Dates</label
+            >
+            <div date-rangepicker class="flex items-center">
+              <div class="relative">
+                <div
+                  class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="w-5 h-5 text-gray-500"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  id="start-date-edit"
+                  name="start"
+                  type="text"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+                  placeholder="Select date start"
+                />
+              </div>
+              <span class="mx-4 text-gray-500">to</span>
+              <div class="relative">
+                <div
+                  class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="w-5 h-5 text-gray-500"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  id="end-date-edit"
+                  name="end"
+                  type="text"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+                  placeholder="Select date end"
+                />
+              </div>
+            </div>
+            <button
+              id="edit-trip-submit"
+              class="text-sm mt-2 bg-blue-500 hover:bg-blue-700 text-gray-100 py-1 px-2 rounded-lg focus:outline-none focus:shadow-outline"
+              type="button"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="relative z-10"
+    role="dialog"
+    aria-modal="true"
+    id="add-journal-modal"
+    hidden
+  >
+    <div
+      class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+    ></div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div
+        class="min-h-full text-center sm:items-center sm:p-0"
+      >
+        <div
+          class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg flex flex-col items-center p-6"
+        >
+          <button
+            id="close-add-journal"
+            type="button"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+            data-modal-hide="defaultModal"
+          >
+            <svg
+              aria-hidden="true"
+              class="w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+          <form>
+            <label
+              for="journal-label-input"
+              class="block text-gray-700 text-md font-bold mb-2"
+              >List Title</label
+            >
+            <input
+              id="journal-label-input"
+              placeholder="Ex. Favorite Activities"
+              class="mb-3 p-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500"
+            />
+            <label
+              for="journal-entry-input"
+              class="block text-gray-700 text-md font-bold mb-2"
+              >List Entry</label
+            >
+            <input
+              id="journal-entry-input"
+              placeholder="Ex. Surfing"
+              class="mb-3 p-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500"
+            />
+            <div>
+              <button
+                id="add-journal-submit"
+                class="text-sm mt-2 bg-blue-500 hover:bg-blue-700 text-gray-100 py-1 px-2 rounded-lg focus:outline-none focus:shadow-outline"
+                type="button"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="relative z-10"
+    role="dialog"
+    aria-modal="true"
+    id="add-entry-modal"
+    hidden
+  >
+    <div
+      class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+    ></div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div
+        class="flex min-h-full items-center justify-center text-center sm:items-center sm:p-0"
+      >
+        <div
+          class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg flex flex-col items-center p-6"
+        >
+          <button
+            id="close-add-entry"
+            type="button"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+            data-modal-hide="defaultModal"
+          >
+            <svg
+              aria-hidden="true"
+              class="w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+          <form>
+            <label
+              for="add-entry-input"
+              class="block text-gray-700 text-md font-bold mb-2"
+              >List Entry</label
+            >
+            <input
+              id="add-entry-input"
+              placeholder="Ex. Surfing"
+              class="mb-3 p-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500"
+            />
+            <div>
+              <button
+                id="add-entry-submit"
+                class="text-sm mt-2 bg-blue-500 hover:bg-blue-700 text-gray-100 py-1 px-2 rounded-lg focus:outline-none focus:shadow-outline"
+                type="button"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="relative z-10"
+    role="dialog"
+    aria-modal="true"
+    id="delete-entry-modal"
+    hidden
+  >
+    <div
+      class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+    ></div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div
+        class="flex min-h-full items-center justify-center text-center sm:items-center sm:p-0"
+      >
+        <div
+          class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg flex flex-col items-center p-6"
+        >
+          <button
+            id="close-delete-entry"
+            type="button"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+            data-modal-hide="defaultModal"
+          >
+            <svg
+              aria-hidden="true"
+              class="w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+          <form>
+              <label for="delete-entry-input" class="block text-gray-700 text-md font-bold mb-2">Select list item to delete:</label>
+              <select id="delete-entry-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+              </select>
+            <div>
+              <button
+                id="delete-entry-submit"
+                class="text-sm mt-2 bg-blue-500 hover:bg-blue-700 text-gray-100 py-1 px-2 rounded-lg focus:outline-none focus:shadow-outline"
+                type="button"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="relative z-10"
+    role="dialog"
+    aria-modal="true"
+    id="delete-list-modal"
+    hidden
+  >
+    <div
+      class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+    ></div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div
+        class="flex min-h-full items-center justify-center text-center sm:items-center sm:p-0"
+      >
+        <div
+          class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg flex flex-col items-center p-6"
+        >
+          <button
+            id="close-delete-list"
+            type="button"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+            data-modal-hide="defaultModal"
+          >
+            <svg
+              aria-hidden="true"
+              class="w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+          <form>
+              <label for="delete-list-input" class="block text-gray-700 text-md font-bold mb-2">Select the list to delete:</label>
+              <select id="delete-list-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+              </select>
+            <div>
+              <button
+                id="delete-list-submit"
+                class="text-sm mt-2 bg-blue-500 hover:bg-blue-700 text-gray-100 py-1 px-2 rounded-lg focus:outline-none focus:shadow-outline"
+                type="button"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="relative z-10"
+    role="dialog"
+    aria-modal="true"
+    id="edit-pin-modal"
+    hidden
+  >
+    <div
+      class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+    ></div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div
+        class="flex min-h-full items-center justify-center text-center sm:items-center sm:p-0"
+      >
+        <div
+          class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg flex flex-col items-center p-6"
+        >
+          <button
+            id="close-edit-pin"
+            type="button"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+            data-modal-hide="defaultModal"
+          >
+            <svg
+              aria-hidden="true"
+              class="w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+          <form>
+            <label
+              for="pin-title-edit"
+              class="block text-gray-700 text-md font-bold mb-2"
+              >Pin Title</label
+            >
+            <input
+              id="pin-title-edit"
+              placeholder="Ex. Los Angeles, CA"
+              class="mb-3 p-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500"
+            />
+            <button
+              id="edit-pin-submit"
+              class="text-sm mt-2 bg-blue-500 hover:bg-blue-700 text-gray-100 py-1 px-2 rounded-lg focus:outline-none focus:shadow-outline"
+              type="button"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/pin.js"></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </div>

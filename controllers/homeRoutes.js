@@ -2,8 +2,12 @@ const router = require("express").Router();
 const { User, Pin, Trip, Journal } = require("../models/index");
 const withAuth = require("../utils/auth");
 
+
 router.get("/", (req, res) => {
-  //TODO: add logic to check if user is logged in/redirect to dashboard if true
+  if(req.session.loggedIn) {
+    res.redirect("/dashboard");
+    return;
+  }
   const data = {
     logo: {
       imagePath: "/images/dropin.PNG",
@@ -16,22 +20,28 @@ router.get("/", (req, res) => {
   res.render("login", data);
 });
 
-router.get("/dashboard", async (req, res) => {
-    //TODO: add logic to check if user is logged in/redirect to login if false
-    //TODO: add logic to get user's pins, trips, and journals to pass to handlebars
-
-    const data = {
-        logo: {
-            imagePath: "/images/dropin.PNG",
-            imageAlt: "Drop In logo" 
-        },
-        showNav: true,
-        loggedIn: req.session.loggedIn,
-    }; 
-  
-    res.render("dashboard", data);
+router.get("/dashboard", withAuth, async (req, res) => {
+    try {
+        const userData = await User.findOne({
+            where: {
+                id: req.session.user_id,
+            },
+          });
+        const data = {
+            logo: {
+                imagePath: "/images/dropin.PNG",
+                imageAlt: "Drop In logo" 
+            },
+            showNav: true,
+            loggedIn: req.session.loggedIn,
+            display_name: userData.display_name,
+        }; 
+      
+        res.render("dashboard", data);
+      } catch (err) {
+        res.status(500).json(err);
+      };
   });
-
 
 // :id is the pin id (when the user clicks on a pin)
 router.get('/pin/:id', async (req, res) => {
@@ -50,6 +60,9 @@ router.get('/pin/:id', async (req, res) => {
                         },
                     ],
                 },
+                {
+                  model: User,
+                }
             ],
         });
         // format the data to be passed to handlebars
@@ -62,6 +75,7 @@ router.get('/pin/:id', async (req, res) => {
                 title: pin.trips[i].title,
                 date_start: pin.trips[i].date_start,
                 date_end: pin.trips[i].date_end,
+                notes: pin.trips[i].notes,
             };
             const journals = {};
             const journalIteration = pin.trips[i].journals;
@@ -81,7 +95,7 @@ router.get('/pin/:id', async (req, res) => {
                     content: [],
                 }
                 for(item in value) {
-                    contentObj = {
+                     const contentObj = {
                         entry: value[item],
                     }
                     formatObj.content.push(contentObj);
@@ -94,7 +108,9 @@ router.get('/pin/:id', async (req, res) => {
         const trips = formattedTrips;
         res.render('pin', {
             trips,
+            pin,
             showNav: true,
+            display_name: pin.user.display_name,
             logo: {
                 imagePath: "/images/dropin.PNG",
                 imageAlt: "Drop In logo" 
