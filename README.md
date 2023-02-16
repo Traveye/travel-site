@@ -155,9 +155,6 @@ Some learning curves we had was working with tailwinds caused some transitioning
 
 ## Credits
 
-- Travis DuPree [Github](https://github.com/Traveye)
-- McCoy Didericksen [Github](https://github.com/mccoydidericksen)
-- Jonathan Pohahau [Github](https://github.com/j-pohahau5) 
 - [Tailwinds](https://tailwindcss.com/)
 - [Leaflet](https://leafletjs.com/)
 - [Sweet Alert](https://sweetalert2.github.io/)
