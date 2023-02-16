@@ -123,6 +123,36 @@ Below is a list of our API routes and their corresponding controller methods.
 
 ![example-gif](./assets/images/sweetalert-example.gif)
 
+## Tailwinds CSS
+
+Tailwinds CSS is a open source framework that allows the user full freedom to customize the page. This framework is nice because it  makes styling the page more user friendly compared to the typical CSS stylesheet. 
+![example-gif](./assets/images/tailwinds.gif)
+
+## Different Page Sizes
+
+1. Login sizes
+![example-gif](./assets/images/login.gif)
+2. Dashboard sizes
+![example-gif](./assets/images/dashboard.gif)
+3. Trip page Sizes
+![example-gif](./assets/images/journal.gif)
+
+## Learning Objectives
+
+Some learning curves we had was working with tailwinds caused some transitioning issues but once the we referred to the correct docs we seen the npm package was different from the the CDM. Another learning curve was using Leaflet with handlebars, we had difficulties implementing the correct script but once we notice the syntax error we were able to smoothly work through our js file for the map.
+
+## Authors Contact Information
+
+1. Travis DuPree:
+  * [Github](https://github.com/Traveye)
+  * [LinkedIn](https://www.linkedin.com/in/travis-dupree-96380218b/)
+2. McCoy Didericksen:
+  * [Github](https://github.com/mccoydidericksen)
+  * [LinkedIn](https://www.linkedin.com/in/mccoydid/)
+3. Jonathan Pohahau:
+  * [Github](https://github.com/j-pohahau5) 
+  * [LinkedIn](https://www.linkedin.com/in/jonathan-pohahau/)
+
 ## Credits
 
 - Travis DuPree [Github](https://github.com/Traveye)
